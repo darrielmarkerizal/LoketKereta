@@ -1,3 +1,28 @@
 <resources>
     <string name="app_name">LoketKereta</string>
+    <string-array name="stasiun_kereta">
+        <item>Jakarta - Stasiun Gambir</item>
+        <item>Jakarta - Stasiun Pasar Senen</item>
+        <item>Bandung - Stasiun Bandung</item>
+        <item>Surabaya - Stasiun Gubeng</item>
+        <item>Semarang - Stasiun Poncol</item>
+        <item>Yogyakarta - Stasiun Tugu</item>
+        <item>Malang - Stasiun Kota Baru</item>
+        <item>Cirebon - Stasiun Kejaksan</item>
+        <item>Tegal - Stasiun Tegal</item>
+        <item>Purwokerto - Stasiun Purwokerto</item>
+        <item>Surakarta - Stasiun Balapan</item>
+        <item>Salatiga - Stasiun Salatiga</item>
+        <item>Kediri - Stasiun Kediri</item>
+        <item>Madiun - Stasiun Madiun</item>
+        <item>Probolinggo - Stasiun Probolinggo</item>
+    </string-array>
+
+    <string-array name="kelas_kereta">
+        <item>Ekonomi</item>
+        <item>Bisnis</item>
+        <item>Eksekutif</item>
+        <item>Prioritas</item>
+        <item>Luxury</item>
+    </string-array>
 </resources>

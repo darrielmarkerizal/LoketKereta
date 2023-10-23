@@ -412,47 +412,61 @@
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal">
                                 <com.google.android.material.chip.Chip
+                                    android:id="@+id/chip1"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Akses Prioritas"
                                     android:layout_marginRight="12dp"
-                                    style="@style/Theme.MaterialComponents.Chip.Choice" />
+                                    style="@style/Widget.Material3.Chip.Filter.Elevated"
+                                     />
                                 <com.google.android.material.chip.Chip
+                                    android:id="@+id/chip2"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="WiFi"
                                     android:layout_marginRight="12dp"
-                                    style="@style/Theme.MaterialComponents.Chip.Choice" />
+                                    style="@style/Widget.Material3.Chip.Filter.Elevated"
+                                     />
                                 <com.google.android.material.chip.Chip
+                                    android:id="@+id/chip3"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Makan dan Minum"
                                     android:layout_marginRight="12dp"
-                                    style="@style/Theme.MaterialComponents.Chip.Choice" />
+                                    style="@style/Widget.Material3.Chip.Filter.Elevated"
+                                     />
                                 <com.google.android.material.chip.Chip
+                                    android:id="@+id/chip4"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Entertainment"
                                     android:layout_marginRight="12dp"
-                                    style="@style/Theme.MaterialComponents.Chip.Choice" />
+                                    style="@style/Widget.Material3.Chip.Filter.Elevated"
+                                     />
                                 <com.google.android.material.chip.Chip
+                                    android:id="@+id/chip5"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Lounge Ekslusif"
                                     android:layout_marginRight="12dp"
-                                    style="@style/Theme.MaterialComponents.Chip.Choice" />
+                                    style="@style/Widget.Material3.Chip.Filter.Elevated"
+                                     />
                                 <com.google.android.material.chip.Chip
+                                    android:id="@+id/chip6"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Bantal"
                                     android:layout_marginRight="12dp"
-                                    style="@style/Theme.MaterialComponents.Chip.Choice" />
+                                    style="@style/Widget.Material3.Chip.Filter.Elevated"
+                                     />
                                 <com.google.android.material.chip.Chip
+                                    android:id="@+id/chip7"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Selimut"
                                     android:layout_marginRight="12dp"
-                                    style="@style/Theme.MaterialComponents.Chip.Choice" />
+                                    style="@style/Widget.Material3.Chip.Filter.Elevated"
+                                     />
                             </LinearLayout>
                         </HorizontalScrollView>
                     </LinearLayout>
