@@ -16,7 +16,7 @@ class OnBoardingAdapter(
     override fun createFragment(position: Int): Fragment {
         return when (position) {
             0 -> OnBoardingFragment.newInstance(
-                "Selamat Datang di Aplikasi Kereta Api",
+                "Selamat Datang di Aplikasi LoketKereta",
                 "Mulailah perjalanan petualangan Anda dengan aplikasi kami. Temukan tiket kereta, jadwal perjalanan, dan rencanakan perjalanan kereta Anda dengan mudah",
                 R.raw.onboarding1
             )

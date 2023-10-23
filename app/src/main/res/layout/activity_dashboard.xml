@@ -160,7 +160,6 @@
                     android:textSize="20dp"
                     android:textStyle="bold"/>
 
-                <!-- Elemen-elemen yang Anda ingin tampilkan dalam NestedScrollView -->
                 <androidx.cardview.widget.CardView
                     android:id="@+id/pesan_tiket"
                     android:layout_width="match_parent"
@@ -217,9 +216,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginTop="20dp"
-                    app:cardCornerRadius="16dp"
-                    android:layout_marginHorizontal="30dp">
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
+                    app:cardCornerRadius="16dp">
 
                     <CalendarView
                         android:layout_width="350dp"
