@@ -36,6 +36,16 @@ class DashboardActivity : AppCompatActivity() {
         val paketTambahanText = paketTambahanList?.joinToString(", ") ?: "Tidak ada paket tambahan"
         paketTambahanTextView.text = paketTambahanText
 
+        val calendarView = findViewById<CalendarView>(R.id.calendar)
+        calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
+            val selectedDate = "$year-${month + 1}-$dayOfMonth"
+
+            if (tanggal == selectedDate) {
+                Toast.makeText(this, "Rencana perjalanan tersedia di tanggal ini.", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Rencana perjalanan tidak tersedia di tanggal ini.", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }
 
