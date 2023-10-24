@@ -94,6 +94,7 @@
         </LinearLayout>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cardPerjalanan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -108,37 +109,85 @@
                 android:layout_margin="8dp"
                 android:orientation="vertical">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:textSize="16dp"
-                    android:textStyle="bold"
-                    android:text="Tanggal :"/>
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:textSize="16dp"
+                        android:textStyle="bold"
+                        android:text="Tanggal :"/>
+                    <TextView
+                        android:id="@+id/tanggal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:textSize="16dp"
+                        android:text="26 Oktober 2023"/>
+                </LinearLayout>
 
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:textSize="16dp"
-                    android:textStyle="bold"
-                    android:text="Asal :"/>
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:textSize="16dp"
+                        android:textStyle="bold"
+                        android:text="Asal :"/>
+                    <TextView
+                        android:id="@+id/stasiunAsal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:textSize="16dp"
+                        android:text="Stasiun Gambir - Jakarta"/>
+                </LinearLayout>
 
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:textSize="16dp"
-                    android:textStyle="bold"
-                    android:text="Tujuan :"/>
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:textSize="16dp"
+                        android:textStyle="bold"
+                        android:text="Tujuan :"/>
+                    <TextView
+                        android:id="@+id/stasiunTujuan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:textSize="16dp"
+                        android:text="Stasiun Pasar Senen - Jakarta"/>
+                </LinearLayout>
 
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:textSize="16dp"
-                    android:textStyle="bold"
-                    android:text="Package :"/>
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:textSize="16dp"
+                        android:textStyle="bold"
+                        android:text="Paket Tambahan :"/>
+                    <TextView
+                        android:id="@+id/paketTambahan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:textSize="16dp"
+                        android:text="WiFi"/>
+                </LinearLayout>
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
