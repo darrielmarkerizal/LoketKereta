@@ -8,6 +8,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.loketkereta.databinding.ActivityOnBoardingBinding
 import com.example.loketkereta.databinding.FragmentOnBoardingBinding
 import com.google.android.material.tabs.TabLayoutMediator
+import android.content.Context
 
 class OnBoardingActivity : AppCompatActivity() {
     private lateinit var mViewPager: ViewPager2
@@ -30,6 +31,13 @@ class OnBoardingActivity : AppCompatActivity() {
         mViewPager.adapter = OnBoardingAdapter(this, this)
         TabLayoutMediator(binding.pageIndicator, mViewPager) { _, _ -> }.attach()
         mViewPager.offscreenPageLimit = 1
+
+        val sharedPreferences = getSharedPreferences("LoginPreferences", Context.MODE_PRIVATE)
+        if (sharedPreferences.getBoolean("isLoggedIn", false)) {
+            val intent = Intent(this, DashboardActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
 
     }
 }

@@ -10,6 +10,7 @@ import com.example.loketkereta.databinding.ActivityRegisterBinding
 import java.util.Calendar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import android.content.Context
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -28,6 +29,13 @@ class RegisterActivity : AppCompatActivity() {
         binding.loginLink.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
+        }
+
+        val sharedPreferences = getSharedPreferences("LoginPreferences", Context.MODE_PRIVATE)
+        if (sharedPreferences.getBoolean("isLoggedIn", false)) {
+            val intent = Intent(this, DashboardActivity::class.java)
+            startActivity(intent)
+            finish()
         }
 
         val registerButton = binding.btnToLogin

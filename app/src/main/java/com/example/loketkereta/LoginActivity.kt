@@ -28,6 +28,13 @@ class LoginActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
 
+        val sharedPreferences = getSharedPreferences("LoginPreferences", Context.MODE_PRIVATE)
+        if (sharedPreferences.getBoolean("isLoggedIn", false)) {
+            val intent = Intent(this, DashboardActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
         val loginButton = binding.btnToDashboard
         loginButton.setOnClickListener {
             val email = binding.emailInput.text.toString()
@@ -46,16 +53,20 @@ class LoginActivity : AppCompatActivity() {
                     val user = auth.currentUser
                     Log.d(TAG, "signInWithEmail:success")
 
+                    val sharedPreferences = getSharedPreferences("LoginPreferences", Context.MODE_PRIVATE)
+                    val editor = sharedPreferences.edit()
+                    editor.putBoolean("isLoggedIn", true)
+                    editor.apply()
+
                     val database = FirebaseDatabase.getInstance()
                     val myRef = database.getReference("users").child(user!!.uid)
 
                     myRef.addValueEventListener(object : ValueEventListener {
                         override fun onDataChange(dataSnapshot: DataSnapshot) {
-                            val fullName = dataSnapshot.child("name").getValue(String::class.java)
 
                             val intent = Intent(this@LoginActivity, DashboardActivity::class.java)
-                            intent.putExtra("fullName", fullName)
                             startActivity(intent)
+                            finish()
                         }
 
                         override fun onCancelled(databaseError: DatabaseError) {

@@ -5,11 +5,12 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.*
+import com.example.loketkereta.databinding.ActivityBookingBinding
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textfield.TextInputEditText
 import java.util.Calendar
 
@@ -34,24 +35,32 @@ class BookingActivity : AppCompatActivity() {
         intArrayOf(700000, 675000, 625000, 575000, 525000, 475000, 425000, 375000, 325000, 275000, 225000, 175000, 125000, 75000, 0)
     )
 
+
+    private lateinit var binding: ActivityBookingBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_booking)
+
+        binding = ActivityBookingBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        var jumlahAnak = 0
+        var jumlahDewasa = 0
 
         val stasiunArray = resources.getStringArray(R.array.stasiun_kereta)
         val kelasArray = resources.getStringArray(R.array.kelas_kereta)
 
-        val spinnerBerangkat = findViewById<Spinner>(R.id.spinner_berangkat)
-        val spinnerTujuan = findViewById<Spinner>(R.id.spinner_tujuan)
-        val spinnerKelas = findViewById<Spinner>(R.id.spinner_kelas)
-        val totalHargaTextView = findViewById<TextView>(R.id.totalHarga)
-        val jumlahAnakTextView = findViewById<TextView>(R.id.textJumlahAnak)
-        val jumlahDewasaTextView = findViewById<TextView>(R.id.textJumlahDewasa)
+        val spinnerBerangkat = binding.spinnerBerangkat
+        val spinnerTujuan = binding.spinnerTujuan
+        val spinnerKelas = binding.spinnerKelas
+        val totalHargaTextView = binding.totalHarga
+        val jumlahAnakTextView = binding.textJumlahAnak
+        val jumlahDewasaTextView = binding.textJumlahDewasa
+        val chipGroup = binding.chipGroup
 
-        val anakMinusButton = findViewById<ImageView>(R.id.minus1)
-        val anakPlusButton = findViewById<ImageView>(R.id.add1)
-        val dewasaMinusButton = findViewById<ImageView>(R.id.minus2)
-        val dewasaPlusButton = findViewById<ImageView>(R.id.add2)
+        val anakMinusButton = binding.minus1
+        val anakPlusButton = binding.add1
+        val dewasaMinusButton = binding.minus2
+        val dewasaPlusButton = binding.add2
 
         val stasiunPlaceholder = "Pilih stasiun"
         val stasiunList = mutableListOf(stasiunPlaceholder)
@@ -76,19 +85,14 @@ class BookingActivity : AppCompatActivity() {
         spinnerTujuan.prompt = stasiunPlaceholder
         spinnerKelas.prompt = kelasPlaceholder
 
-        var jumlahAnak = 0
-        var jumlahDewasa = 0
         var kelasTerpilih = 0
         var stasiunAwalTerpilih = -1
         var stasiunAkhirTerpilih = -1
 
-        val inputTanggal = findViewById<TextInputEditText>(R.id.inputTanggal)
+        val inputTanggal = binding.inputTanggal
         inputTanggal.setOnClickListener {
             showDatePickerDialog()
         }
-
-
-        val chipGroup = findViewById<ChipGroup>(R.id.chip_group)
 
         chipGroup.setOnCheckedChangeListener { group, checkedId ->
             val selectedChips = group.checkedChipIds.map { chipId ->
@@ -102,11 +106,49 @@ class BookingActivity : AppCompatActivity() {
         spinnerKelas.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 kelasTerpilih = position
-                updateTotalHarga(jumlahAnak, jumlahDewasa, kelasTerpilih, stasiunAwalTerpilih, stasiunAkhirTerpilih, totalHargaTextView)
+                if (isValidInput(jumlahAnak, jumlahDewasa, kelasTerpilih, stasiunAwalTerpilih, stasiunAkhirTerpilih)) {
+                    updateTotalHarga(jumlahAnak, jumlahDewasa, kelasTerpilih, stasiunAwalTerpilih, stasiunAkhirTerpilih, totalHargaTextView)
+                }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 // Do nothing
+            }
+        }
+
+        anakMinusButton.setOnClickListener {
+            if (jumlahAnak > 0) {
+                jumlahAnak--
+                jumlahAnakTextView.text = jumlahAnak.toString()
+                if (isValidInput(jumlahAnak, jumlahDewasa, kelasTerpilih, stasiunAwalTerpilih, stasiunAkhirTerpilih)) {
+                    updateTotalHarga(jumlahAnak, jumlahDewasa, kelasTerpilih, stasiunAwalTerpilih, stasiunAkhirTerpilih, totalHargaTextView)
+                }
+            }
+        }
+
+        anakPlusButton.setOnClickListener {
+            jumlahAnak++
+            jumlahAnakTextView.text = jumlahAnak.toString()
+            if (isValidInput(jumlahAnak, jumlahDewasa, kelasTerpilih, stasiunAwalTerpilih, stasiunAkhirTerpilih)) {
+                updateTotalHarga(jumlahAnak, jumlahDewasa, kelasTerpilih, stasiunAwalTerpilih, stasiunAkhirTerpilih, totalHargaTextView)
+            }
+        }
+
+        dewasaMinusButton.setOnClickListener {
+            if (jumlahDewasa > 0) {
+                jumlahDewasa--
+                jumlahDewasaTextView.text = jumlahDewasa.toString()
+                if (isValidInput(jumlahAnak, jumlahDewasa, kelasTerpilih, stasiunAwalTerpilih, stasiunAkhirTerpilih)) {
+                    updateTotalHarga(jumlahAnak, jumlahDewasa, kelasTerpilih, stasiunAwalTerpilih, stasiunAkhirTerpilih, totalHargaTextView)
+                }
+            }
+        }
+
+        dewasaPlusButton.setOnClickListener {
+            jumlahDewasa++
+            jumlahDewasaTextView.text = jumlahDewasa.toString()
+            if (isValidInput(jumlahAnak, jumlahDewasa, kelasTerpilih, stasiunAwalTerpilih, stasiunAkhirTerpilih)) {
+                updateTotalHarga(jumlahAnak, jumlahDewasa, kelasTerpilih, stasiunAwalTerpilih, stasiunAkhirTerpilih, totalHargaTextView)
             }
         }
 
@@ -116,7 +158,9 @@ class BookingActivity : AppCompatActivity() {
                 if (stasiunAwalTerpilih == stasiunAkhirTerpilih) {
                     Toast.makeText(applicationContext, "Stasiun asal dan tujuan tidak boleh sama.", Toast.LENGTH_SHORT).show()
                     spinnerBerangkat.setSelection(0)
-                } else {
+                    stasiunAwalTerpilih = 0
+                }
+                if (isValidInput(jumlahAnak, jumlahDewasa, kelasTerpilih, stasiunAwalTerpilih, stasiunAkhirTerpilih)) {
                     updateTotalHarga(jumlahAnak, jumlahDewasa, kelasTerpilih, stasiunAwalTerpilih, stasiunAkhirTerpilih, totalHargaTextView)
                 }
             }
@@ -126,52 +170,7 @@ class BookingActivity : AppCompatActivity() {
             }
         }
 
-        spinnerTujuan.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                stasiunAkhirTerpilih = position
-                if (stasiunAwalTerpilih == stasiunAkhirTerpilih) {
-                    Toast.makeText(applicationContext, "Stasiun asal dan tujuan tidak boleh sama.", Toast.LENGTH_SHORT).show()
-                    spinnerTujuan.setSelection(0)
-                } else {
-                    updateTotalHarga(jumlahAnak, jumlahDewasa, kelasTerpilih, stasiunAwalTerpilih, stasiunAkhirTerpilih, totalHargaTextView)
-                }
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                // Do nothing
-            }
-        }
-
-
-        anakMinusButton.setOnClickListener {
-            if (jumlahAnak > 0) {
-                jumlahAnak--
-                jumlahAnakTextView.text = jumlahAnak.toString()
-                updateTotalHarga(jumlahAnak, jumlahDewasa, kelasTerpilih, stasiunAwalTerpilih, stasiunAkhirTerpilih, totalHargaTextView)
-            }
-        }
-
-        anakPlusButton.setOnClickListener {
-            jumlahAnak++
-            jumlahAnakTextView.text = jumlahAnak.toString()
-            updateTotalHarga(jumlahAnak, jumlahDewasa, kelasTerpilih, stasiunAwalTerpilih, stasiunAkhirTerpilih, totalHargaTextView)
-        }
-
-        dewasaMinusButton.setOnClickListener {
-            if (jumlahDewasa > 0) {
-                jumlahDewasa--
-                jumlahDewasaTextView.text = jumlahDewasa.toString()
-                updateTotalHarga(jumlahAnak, jumlahDewasa, kelasTerpilih, stasiunAwalTerpilih, stasiunAkhirTerpilih, totalHargaTextView)
-            }
-        }
-
-        dewasaPlusButton.setOnClickListener {
-            jumlahDewasa++
-            jumlahDewasaTextView.text = jumlahDewasa.toString()
-            updateTotalHarga(jumlahAnak, jumlahDewasa, kelasTerpilih, stasiunAwalTerpilih, stasiunAkhirTerpilih, totalHargaTextView)
-        }
-
-        val btnBooking = findViewById<MaterialButton>(R.id.btnBooking)
+        val btnBooking = binding.btnBooking
 
         btnBooking.setOnClickListener {
             val selectedDate = inputTanggal.text.toString()
@@ -235,17 +234,25 @@ class BookingActivity : AppCompatActivity() {
 
 
     private fun updateTotalHarga(jumlahAnak: Int, jumlahDewasa: Int, kelas: Int, stasiunAwal: Int, stasiunAkhir: Int, totalHargaTextView: TextView, additionalPrice: Int = 0) {
-        if (kelas >= 0 && stasiunAwal >= 0 && stasiunAkhir >= 0 && stasiunAwal != stasiunAkhir && (jumlahAnak > 0 || jumlahDewasa > 0)) {
-            val hargaTiket = hargaTiketPerKelas[kelas]
-            val hargaTambahan = hargaTambahanStasiun[stasiunAwal][stasiunAkhir]
-
-            val hargaAnak = hargaTiket / 2
-
-            val totalHarga = (hargaTiket * jumlahDewasa + hargaAnak * jumlahAnak + hargaTambahan + additionalPrice)
-
-            totalHargaTextView.text = "Rp $totalHarga"
-        } else {
-            totalHargaTextView.text = "Rp 0"
+        if (jumlahAnak < 0 || jumlahDewasa < 0 || kelas < 0 || stasiunAwal < 0 || stasiunAkhir < 0 || stasiunAwal >= hargaTambahanStasiun.size || stasiunAkhir >= hargaTambahanStasiun[0].size) {
+            throw IllegalArgumentException("Invalid argument")
         }
+        if (stasiunAwal == stasiunAkhir) {
+            totalHargaTextView.text = "Rp 0"
+            return
+        }
+        if (jumlahAnak == 0 && jumlahDewasa == 0) {
+            totalHargaTextView.text = "Rp 0"
+            return
+        }
+        val hargaTiket = hargaTiketPerKelas[kelas]
+        val hargaTambahan = hargaTambahanStasiun[stasiunAwal][stasiunAkhir]
+        val hargaAnak = hargaTiket / 2
+        val totalHarga = (hargaTiket * jumlahDewasa + hargaAnak * jumlahAnak + hargaTambahan + additionalPrice)
+        totalHargaTextView.text = "Rp $totalHarga"
+    }
+
+    private fun isValidInput(jumlahAnak: Int, jumlahDewasa: Int, kelas: Int, stasiunAwal: Int, stasiunAkhir: Int): Boolean {
+        return jumlahAnak >= 0 && jumlahDewasa >= 0 && kelas >= 0 && stasiunAwal >= 0 && stasiunAkhir >= 0 && stasiunAwal < hargaTambahanStasiun.size && stasiunAkhir < hargaTambahanStasiun[0].size && stasiunAwal != stasiunAkhir
     }
 }
