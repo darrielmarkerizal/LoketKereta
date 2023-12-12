@@ -2,53 +2,83 @@ package com.example.loketkereta
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
 import android.content.Intent
-import android.view.View
-import android.widget.CheckBox
 import android.widget.Toast
 import android.app.DatePickerDialog
+import android.util.Log
+import com.example.loketkereta.databinding.ActivityRegisterBinding
 import java.util.Calendar
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 
 class RegisterActivity : AppCompatActivity() {
 
-    private lateinit var emailInput: EditText
-    private lateinit var usernameInput: EditText
-    private lateinit var passwordInput: EditText
-    private lateinit var birthInput: EditText
-    private lateinit var rememberCheckBox: CheckBox
+    private lateinit var binding: ActivityRegisterBinding
+    private lateinit var auth: FirebaseAuth
     private var selectedBirthDate: String = ""
+    private val TAG = "RegisterActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_register)
+        binding = ActivityRegisterBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        emailInput = findViewById(R.id.emailInput)
-        usernameInput = findViewById(R.id.usernameInput)
-        passwordInput = findViewById(R.id.passwordInput)
-        birthInput = findViewById(R.id.birthInput)
-        rememberCheckBox = findViewById(R.id.rememberCheckBox)
+        auth = FirebaseAuth.getInstance()
 
-        val registerButton: Button = findViewById(R.id.btnToLogin)
+        binding.loginLink.setOnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+        }
+
+        val registerButton = binding.btnToLogin
         registerButton.setOnClickListener {
-            val email = emailInput.text.toString()
-            val username = usernameInput.text.toString()
-            val password = passwordInput.text.toString()
+            val email = binding.emailInput.text.toString()
+            val password = binding.passwordInput.text.toString()
+            val fullName = binding.fullNameInput.text.toString()
+            val birthDate = binding.birthInput.text.toString()
+
+            Log.d(TAG, "Attempting to register with email: $email")
 
             if (validateAge(selectedBirthDate)) {
-                val intent = Intent(this, LoginActivity::class.java)
-                intent.putExtra("email", email)
-                intent.putExtra("username", username)
-                intent.putExtra("password", password)
-                startActivity(intent)
+                registerUser(email, password, fullName, birthDate)
             } else {
+                Log.d(TAG, "User age validation failed")
                 Toast.makeText(this, "Anda harus berusia minimal 15 tahun untuk mendaftar.", Toast.LENGTH_SHORT).show()
             }
         }
 
-        birthInput.setOnClickListener {
+        binding.birthInput.setOnClickListener {
             showDatePickerDialog()
+        }
+    }
+
+    private fun registerUser(email: String, password: String, fullName: String, birthDate: String) {
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    val user = auth.currentUser
+                    Log.d(TAG, "createUserWithEmail:success")
+                    saveUserDataToDatabase(user?.uid, fullName, birthDate)
+                    val intent = Intent(this, LoginActivity::class.java)
+                    startActivity(intent)
+                } else {
+                    Log.d(TAG, "createUserWithEmail:failure", task.exception)
+                    Toast.makeText(this, "Authentication failed.", Toast.LENGTH_SHORT).show()
+                }
+            }
+    }
+
+    private fun saveUserDataToDatabase(userId: String?, fullName: String, birthDate: String) {
+        val database = FirebaseDatabase.getInstance()
+        val myRef = database.getReference("users")
+
+        val userRole = "user"
+
+        if (userId != null) {
+            myRef.child(userId).child("role").setValue(userRole)
+            myRef.child(userId).child("name").setValue(fullName)
+            myRef.child(userId).child("birthDate").setValue(birthDate)
+            Log.d(TAG, "User role, name and birth date set in database for userId: $userId")
         }
     }
 
@@ -86,7 +116,7 @@ class RegisterActivity : AppCompatActivity() {
 
         val datePickerDialog = DatePickerDialog(this, DatePickerDialog.OnDateSetListener { _, selectedYear, selectedMonth, selectedDay ->
             selectedBirthDate = "$selectedYear-${selectedMonth + 1}-$selectedDay"
-            birthInput.setText(selectedBirthDate)
+            binding.birthInput.setText(selectedBirthDate)
         }, year, month, day)
 
         datePickerDialog.show()

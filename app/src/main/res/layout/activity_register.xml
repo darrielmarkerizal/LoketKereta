@@ -66,6 +66,26 @@
                     android:textColor="@color/text_secondary"
                     android:text="Langkah Pertama Menuju Petualangan Baru Anda"/>
 
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nama Lengkap"
+                    android:textColor="@color/text_primary"
+                    android:alpha="0.7"
+                    android:textStyle="bold"/>
+
+                <EditText
+                    android:id="@+id/fullNameInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:hint="Masukkan Nama Lengkap Anda"/>
+
                 <View
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"/>
@@ -85,24 +105,7 @@
                     android:inputType="textEmailAddress"
                     android:hint="Masukkan Alamat Email Anda"/>
 
-                <View
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Username"
-                    android:textColor="@color/text_primary"
-                    android:alpha="0.7"
-                    android:textStyle="bold"/>
-
-                <EditText
-                    android:id="@+id/usernameInput"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text"
-                    android:hint="Kreasi Nama Pengguna Anda"/>
 
                 <View
                     android:layout_width="wrap_content"
@@ -172,6 +175,23 @@
                     android:text="Mulai Petualangan"
                     app:cornerRadius="32dp"
                     android:backgroundTint="@color/primary"/>
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="10dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/loginLink"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Sudah punya akun? Login di sini"
+                        android:textColor="@color/primary"/>
+                </LinearLayout>
             </LinearLayout>
         </ScrollView>
     </androidx.cardview.widget.CardView>

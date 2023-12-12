@@ -8,15 +8,23 @@ import android.view.View
 import android.widget.CalendarView
 import android.widget.TextView
 import android.widget.Toast
+import com.example.loketkereta.databinding.ActivityDashboardBinding
+import android.content.Context
 
 class DashboardActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityDashboardBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_dashboard)
+        binding = ActivityDashboardBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        val pesanTiketCardView = findViewById<View>(R.id.pesan_tiket)
+        val sharedPref = getSharedPreferences("MyPref", Context.MODE_PRIVATE)
+        val fullName = sharedPref.getString("fullName", "")
 
-        pesanTiketCardView.setOnClickListener {
+        binding.namaUser.text = fullName
+
+        binding.pesanTiket.setOnClickListener {
             val intent = Intent(this, BookingActivity::class.java)
             startActivity(intent)
         }
@@ -25,19 +33,13 @@ class DashboardActivity : AppCompatActivity() {
         val stasiunTujuan = intent.getStringExtra("stasiunTujuan")
         val paketTambahanList = intent.getStringArrayListExtra("paketTambahan")
 
-        val tanggalTextView = findViewById<TextView>(R.id.tanggal)
-        val stasiunAsalTextView = findViewById<TextView>(R.id.stasiunAsal)
-        val stasiunTujuanTextView = findViewById<TextView>(R.id.stasiunTujuan)
-        val paketTambahanTextView = findViewById<TextView>(R.id.paketTambahan)
-
-        tanggalTextView.text = tanggal
-        stasiunAsalTextView.text = stasiunAsal
-        stasiunTujuanTextView.text = stasiunTujuan
+        binding.tanggal.text = tanggal
+        binding.stasiunAsal.text = stasiunAsal
+        binding.stasiunTujuan.text = stasiunTujuan
         val paketTambahanText = paketTambahanList?.joinToString(", ") ?: "Tidak ada paket tambahan"
-        paketTambahanTextView.text = paketTambahanText
+        binding.paketTambahan.text = paketTambahanText
 
-        val calendarView = findViewById<CalendarView>(R.id.calendar)
-        calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
+        binding.calendar.setOnDateChangeListener { view, year, month, dayOfMonth ->
             val selectedDate = "$year-${month + 1}-$dayOfMonth"
 
             if (tanggal == selectedDate) {
@@ -48,4 +50,3 @@ class DashboardActivity : AppCompatActivity() {
         }
     }
 }
-
