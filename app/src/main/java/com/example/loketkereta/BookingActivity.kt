@@ -11,6 +11,7 @@ import android.widget.*
 import com.example.loketkereta.databinding.ActivityBookingBinding
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textfield.TextInputEditText
 import java.util.Calendar
 
@@ -89,23 +90,41 @@ class BookingActivity : AppCompatActivity() {
         var stasiunAwalTerpilih = -1
         var stasiunAkhirTerpilih = -1
 
+        chipGroup.setOnCheckedChangeListener { group, checkedId ->
+            var additionalPrice = 0
+            val checkedChipIds = group.checkedChipIds
+            for (chipId in checkedChipIds) {
+                val chip = group.findViewById<Chip>(chipId)
+                val chipText = chip.text.toString()
+                val chipPrice = when (chipText) {
+                    "Akses Prioritas" -> 50000
+                    "WiFi" -> 100000
+                    "Makan dan Minum" -> 150000
+                    "Entertainment" -> 200000
+                    "Lounge Ekslusif" -> 250000
+                    "Bantal" -> 300000
+                    "Selimut" -> 350000
+                    else -> 0
+                }
+                additionalPrice += chipPrice
+            }
+            Log.d("BookingActivity", "Additional price: $additionalPrice")
+            if (isValidInput(jumlahAnak, jumlahDewasa, kelasTerpilih, stasiunAwalTerpilih, stasiunAkhirTerpilih)) {
+                updateTotalHarga(jumlahAnak, jumlahDewasa, kelasTerpilih, stasiunAwalTerpilih, stasiunAkhirTerpilih, totalHargaTextView, additionalPrice)
+            }
+        }
+
         val inputTanggal = binding.inputTanggal
         inputTanggal.setOnClickListener {
             showDatePickerDialog()
         }
 
-        chipGroup.setOnCheckedChangeListener { group, checkedId ->
-            val selectedChips = group.checkedChipIds.map { chipId ->
-                group.findViewById<Chip>(chipId)
-            }
 
-            val additionalPrice = calculateAdditionalPrice(selectedChips)
-            updateTotalHarga(jumlahAnak, jumlahDewasa, kelasTerpilih, stasiunAwalTerpilih, stasiunAkhirTerpilih, totalHargaTextView, additionalPrice)
-        }
 
         spinnerKelas.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 kelasTerpilih = position
+                Log.d("BookingActivity", "Kelas terpilih: $kelasTerpilih")
                 if (isValidInput(jumlahAnak, jumlahDewasa, kelasTerpilih, stasiunAwalTerpilih, stasiunAkhirTerpilih)) {
                     updateTotalHarga(jumlahAnak, jumlahDewasa, kelasTerpilih, stasiunAwalTerpilih, stasiunAkhirTerpilih, totalHargaTextView)
                 }
@@ -120,6 +139,7 @@ class BookingActivity : AppCompatActivity() {
             if (jumlahAnak > 0) {
                 jumlahAnak--
                 jumlahAnakTextView.text = jumlahAnak.toString()
+                Log.d("BookingActivity", "Jumlah anak: $jumlahAnak")
                 if (isValidInput(jumlahAnak, jumlahDewasa, kelasTerpilih, stasiunAwalTerpilih, stasiunAkhirTerpilih)) {
                     updateTotalHarga(jumlahAnak, jumlahDewasa, kelasTerpilih, stasiunAwalTerpilih, stasiunAkhirTerpilih, totalHargaTextView)
                 }
@@ -129,6 +149,7 @@ class BookingActivity : AppCompatActivity() {
         anakPlusButton.setOnClickListener {
             jumlahAnak++
             jumlahAnakTextView.text = jumlahAnak.toString()
+            Log.d("BookingActivity", "Jumlah anak: $jumlahAnak")
             if (isValidInput(jumlahAnak, jumlahDewasa, kelasTerpilih, stasiunAwalTerpilih, stasiunAkhirTerpilih)) {
                 updateTotalHarga(jumlahAnak, jumlahDewasa, kelasTerpilih, stasiunAwalTerpilih, stasiunAkhirTerpilih, totalHargaTextView)
             }
@@ -138,6 +159,7 @@ class BookingActivity : AppCompatActivity() {
             if (jumlahDewasa > 0) {
                 jumlahDewasa--
                 jumlahDewasaTextView.text = jumlahDewasa.toString()
+                Log.d("BookingActivity", "Jumlah dewasa: $jumlahDewasa")
                 if (isValidInput(jumlahAnak, jumlahDewasa, kelasTerpilih, stasiunAwalTerpilih, stasiunAkhirTerpilih)) {
                     updateTotalHarga(jumlahAnak, jumlahDewasa, kelasTerpilih, stasiunAwalTerpilih, stasiunAkhirTerpilih, totalHargaTextView)
                 }
@@ -147,6 +169,7 @@ class BookingActivity : AppCompatActivity() {
         dewasaPlusButton.setOnClickListener {
             jumlahDewasa++
             jumlahDewasaTextView.text = jumlahDewasa.toString()
+            Log.d("BookingActivity", "Jumlah dewasa: $jumlahDewasa")
             if (isValidInput(jumlahAnak, jumlahDewasa, kelasTerpilih, stasiunAwalTerpilih, stasiunAkhirTerpilih)) {
                 updateTotalHarga(jumlahAnak, jumlahDewasa, kelasTerpilih, stasiunAwalTerpilih, stasiunAkhirTerpilih, totalHargaTextView)
             }
@@ -155,10 +178,30 @@ class BookingActivity : AppCompatActivity() {
         spinnerBerangkat.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 stasiunAwalTerpilih = position
+                Log.d("BookingActivity", "Stasiun awal: $stasiunAwalTerpilih")
                 if (stasiunAwalTerpilih == stasiunAkhirTerpilih) {
                     Toast.makeText(applicationContext, "Stasiun asal dan tujuan tidak boleh sama.", Toast.LENGTH_SHORT).show()
                     spinnerBerangkat.setSelection(0)
                     stasiunAwalTerpilih = 0
+                }
+                if (isValidInput(jumlahAnak, jumlahDewasa, kelasTerpilih, stasiunAwalTerpilih, stasiunAkhirTerpilih)) {
+                    updateTotalHarga(jumlahAnak, jumlahDewasa, kelasTerpilih, stasiunAwalTerpilih, stasiunAkhirTerpilih, totalHargaTextView)
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // Do nothing
+            }
+        }
+
+        spinnerTujuan.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                stasiunAkhirTerpilih = position
+                Log.d("BookingActivity", "Stasiun akhir: $stasiunAkhirTerpilih")
+                if (stasiunAwalTerpilih == stasiunAkhirTerpilih) {
+                    Toast.makeText(applicationContext, "Stasiun asal dan tujuan tidak boleh sama.", Toast.LENGTH_SHORT).show()
+                    spinnerTujuan.setSelection(0)
+                    stasiunAkhirTerpilih = 0
                 }
                 if (isValidInput(jumlahAnak, jumlahDewasa, kelasTerpilih, stasiunAwalTerpilih, stasiunAkhirTerpilih)) {
                     updateTotalHarga(jumlahAnak, jumlahDewasa, kelasTerpilih, stasiunAwalTerpilih, stasiunAkhirTerpilih, totalHargaTextView)
@@ -213,25 +256,6 @@ class BookingActivity : AppCompatActivity() {
     }
 
 
-    private fun calculateAdditionalPrice(selectedChips: List<Chip>): Int {
-        var additionalPrice = 0
-
-        for (chip in selectedChips) {
-            when (chip.id) {
-                R.id.chip1 -> additionalPrice += 50000
-                R.id.chip2 -> additionalPrice += 25000
-                R.id.chip3 -> additionalPrice += 10000
-                R.id.chip4 -> additionalPrice += 5000
-                R.id.chip5 -> additionalPrice += 1000
-                R.id.chip6 -> additionalPrice += 500
-                R.id.chip7 -> additionalPrice += 100
-            }
-        }
-
-        return additionalPrice
-    }
-
-
 
     private fun updateTotalHarga(jumlahAnak: Int, jumlahDewasa: Int, kelas: Int, stasiunAwal: Int, stasiunAkhir: Int, totalHargaTextView: TextView, additionalPrice: Int = 0) {
         if (jumlahAnak < 0 || jumlahDewasa < 0 || kelas < 0 || stasiunAwal < 0 || stasiunAkhir < 0 || stasiunAwal >= hargaTambahanStasiun.size || stasiunAkhir >= hargaTambahanStasiun[0].size) {
@@ -245,14 +269,30 @@ class BookingActivity : AppCompatActivity() {
             totalHargaTextView.text = "Rp 0"
             return
         }
-        val hargaTiket = hargaTiketPerKelas[kelas]
-        val hargaTambahan = hargaTambahanStasiun[stasiunAwal][stasiunAkhir]
-        val hargaAnak = hargaTiket / 2
-        val totalHarga = (hargaTiket * jumlahDewasa + hargaAnak * jumlahAnak + hargaTambahan + additionalPrice)
+
+        val hargaTiketDewasa = hargaTiketPerKelas[kelas] + hargaTambahanStasiun[stasiunAwal][stasiunAkhir]
+        val hargaTiketAnak = hargaTiketDewasa / 2
+        val totalHarga = (hargaTiketDewasa * jumlahDewasa + hargaTiketAnak * jumlahAnak + additionalPrice)
         totalHargaTextView.text = "Rp $totalHarga"
     }
 
     private fun isValidInput(jumlahAnak: Int, jumlahDewasa: Int, kelas: Int, stasiunAwal: Int, stasiunAkhir: Int): Boolean {
-        return jumlahAnak >= 0 && jumlahDewasa >= 0 && kelas >= 0 && stasiunAwal >= 0 && stasiunAkhir >= 0 && stasiunAwal < hargaTambahanStasiun.size && stasiunAkhir < hargaTambahanStasiun[0].size && stasiunAwal != stasiunAkhir
+        if (jumlahAnak < 0 || jumlahDewasa < 0) {
+            return false
+        }
+
+        if (kelas <= 0 || stasiunAwal <= 0 || stasiunAkhir <= 0) {
+            return false
+        }
+
+        if (stasiunAwal == stasiunAkhir) {
+            return false
+        }
+
+        if (stasiunAwal >= hargaTambahanStasiun.size || stasiunAkhir >= hargaTambahanStasiun[0].size) {
+            return false
+        }
+
+        return true
     }
 }
