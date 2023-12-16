@@ -8,6 +8,6 @@
 
     <style name="Theme.LoketKereta" parent="Base.Theme.LoketKereta" />
     <style name="App.Custom.indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
-        <item name="android:color">#0000000</item>
+        <item name="android:color">#00FFFFFF</item>
     </style>
 </resources>
