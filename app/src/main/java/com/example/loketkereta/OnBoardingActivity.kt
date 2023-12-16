@@ -34,7 +34,7 @@ class OnBoardingActivity : AppCompatActivity() {
 
         val sharedPreferences = getSharedPreferences("LoginPreferences", Context.MODE_PRIVATE)
         if (sharedPreferences.getBoolean("isLoggedIn", false)) {
-            val intent = Intent(this, DashboardActivity::class.java)
+            val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
         }
