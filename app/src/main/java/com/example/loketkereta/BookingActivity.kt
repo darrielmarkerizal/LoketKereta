@@ -13,7 +13,11 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textfield.TextInputEditText
+import com.google.firebase.auth.FirebaseAuth
 import java.util.Calendar
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.FirebaseFirestore
 
 class BookingActivity : AppCompatActivity() {
     private val hargaTiketPerKelas = intArrayOf(0, 100000, 150000, 200000, 250000, 300000)
@@ -43,6 +47,9 @@ class BookingActivity : AppCompatActivity() {
 
         binding = ActivityBookingBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val database: FirebaseDatabase = FirebaseDatabase.getInstance()
+        val myRef: DatabaseReference = database.getReference("booking")
 
         var jumlahAnak = 0
         var jumlahDewasa = 0
@@ -214,25 +221,44 @@ class BookingActivity : AppCompatActivity() {
         }
 
         val btnBooking = binding.btnBooking
+        val auth = FirebaseAuth.getInstance()
+        val currentUserId = auth.currentUser!!.uid
 
         btnBooking.setOnClickListener {
             val selectedDate = inputTanggal.text.toString()
             val stasiunAsal = spinnerBerangkat.selectedItem.toString()
             val stasiunTujuan = spinnerTujuan.selectedItem.toString()
+            val kelas = spinnerKelas.selectedItem.toString()
+            val jumlahAnak = jumlahAnakTextView.text.toString().toInt()
+            val jumlahDewasa = jumlahDewasaTextView.text.toString().toInt()
+            val totalHarga = totalHargaTextView.text.toString()
+            val selectedChips = chipGroup.checkedChipIds.map { chipId ->
+                chipGroup.findViewById<Chip>(chipId).text.toString()
+            }
 
             if (selectedDate.isNotEmpty() && stasiunAsal != "Pilih stasiun" && stasiunTujuan != "Pilih stasiun") {
+                val db = FirebaseFirestore.getInstance()
+
+                val booking = hashMapOf(
+                    "nama" to "Nama Anda",
+                    "stasiunBerangkat" to stasiunAsal,
+                    "stasiunTiba" to stasiunTujuan,
+                    "jumlahAnak" to jumlahAnak,
+                    "jumlahDewasa" to jumlahDewasa,
+                    "harga" to totalHarga,
+                    "paketTambahan" to selectedChips,
+                    "tanggal" to selectedDate,
+                    "kelas" to kelas,
+                    "userId" to currentUserId,
+                    "nomorTelepon" to "Nomor Telepon Anda",
+                    "timestamp" to com.google.firebase.firestore.FieldValue.serverTimestamp()
+                )
+
+                db.collection("users").document(currentUserId!!).collection("bookings").add(booking)
+                    .addOnSuccessListener { Log.d("Firestore", "DocumentSnapshot successfully written!") }
+                    .addOnFailureListener { e -> Log.w("Firestore", "Error writing document", e) }
+
                 val intent = Intent(this, DashboardActivity::class.java)
-                val tanggal = intent.getStringExtra("tanggal")
-                intent.putExtra("tanggal", selectedDate)
-                intent.putExtra("stasiunAsal", stasiunAsal)
-                intent.putExtra("stasiunTujuan", stasiunTujuan)
-
-                val selectedChips = chipGroup.checkedChipIds.map { chipId ->
-                    chipGroup.findViewById<Chip>(chipId).text.toString()
-                }
-                intent.putStringArrayListExtra("paketTambahan", ArrayList(selectedChips))
-
-
                 startActivity(intent)
             } else {
                 Toast.makeText(applicationContext, "Lengkapi semua data sebelum pesan perjalanan.", Toast.LENGTH_SHORT).show()

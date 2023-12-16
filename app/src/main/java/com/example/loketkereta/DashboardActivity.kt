@@ -17,6 +17,8 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.protobuf.Value
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 
 class DashboardActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDashboardBinding
@@ -50,25 +52,60 @@ class DashboardActivity : AppCompatActivity() {
             val intent = Intent(this, BookingActivity::class.java)
             startActivity(intent)
         }
-        val tanggal = intent.getStringExtra("tanggal")
-        val stasiunAsal = intent.getStringExtra("stasiunAsal")
-        val stasiunTujuan = intent.getStringExtra("stasiunTujuan")
-        val paketTambahanList = intent.getStringArrayListExtra("paketTambahan")
 
-        binding.tanggal.text = tanggal
-        binding.stasiunAsal.text = stasiunAsal
-        binding.stasiunTujuan.text = stasiunTujuan
-        val paketTambahanText = paketTambahanList?.joinToString(", ") ?: "Tidak ada paket tambahan"
-        binding.paketTambahan.text = paketTambahanText
+        val tanggal = intent.getStringExtra("tanggal")
+
+        val db = FirebaseFirestore.getInstance()
+        val userId2 = FirebaseAuth.getInstance().currentUser!!.uid
+
+        db.collection("users").document(userId2).collection("bookings")
+            .orderBy("timestamp", Query.Direction.DESCENDING)
+            .limit(1)
+            .get()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val documents = task.result?.documents
+                    if (!documents.isNullOrEmpty()) {
+                        val document = documents[0]
+                        val tanggal = document.getString("tanggal")
+                        val stasiunAsal = document.getString("stasiunBerangkat")
+                        val stasiunTujuan = document.getString("stasiunTiba")
+                        val paketTambahanList = document.get("paketTambahan") as List<String>?
+
+                        binding.tanggal.text = tanggal
+                        binding.stasiunAsal.text = stasiunAsal
+                        binding.stasiunTujuan.text = stasiunTujuan
+
+                        if (paketTambahanList.isNullOrEmpty()) {
+                            binding.paketTambahan.text = "Tidak ada paket tambahan"
+                        } else {
+                            val paketTambahanText = paketTambahanList.joinToString(", ")
+                            binding.paketTambahan.text = paketTambahanText
+                        }
+                    }
+                } else {
+                    Log.w("DashboardActivity", "Error getting documents.", task.exception)
+                }
+            }
 
         binding.calendar.setOnDateChangeListener { view, year, month, dayOfMonth ->
             val selectedDate = "$year-${month + 1}-$dayOfMonth"
 
-            if (tanggal == selectedDate) {
-                Toast.makeText(this, "Rencana perjalanan tersedia di tanggal ini.", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(this, "Rencana perjalanan tidak tersedia di tanggal ini.", Toast.LENGTH_SHORT).show()
-            }
+            db.collection("users").document(userId2).collection("bookings")
+                .whereEqualTo("tanggal", selectedDate)
+                .get()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val documents = task.result?.documents
+                        if (!documents.isNullOrEmpty()) {
+                            Toast.makeText(this, "Rencana perjalanan tersedia di tanggal ini.", Toast.LENGTH_SHORT).show()
+                        } else {
+                            Toast.makeText(this, "Rencana perjalanan tidak tersedia di tanggal ini.", Toast.LENGTH_SHORT).show()
+                        }
+                    } else {
+                        Log.w("DashboardActivity", "Error getting documents.", task.exception)
+                    }
+                }
         }
     }
 }
