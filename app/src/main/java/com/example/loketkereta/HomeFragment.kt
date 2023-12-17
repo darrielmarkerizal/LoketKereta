@@ -18,6 +18,8 @@ import com.google.firebase.firestore.Query
 import android.util.Log
 import java.util.Calendar
 import android.app.DatePickerDialog
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
@@ -30,6 +32,12 @@ class HomeFragment : Fragment() {
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val view = binding.root
+
+        setupSpinners()
+
+        binding.inputTanggal.setOnClickListener {
+            showDatePickerDialog()
+        }
 
         auth = FirebaseAuth.getInstance()
 
@@ -111,5 +119,63 @@ class HomeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun setupSpinners() {
+        val spinnerBerangkat = binding.spinnerBerangkat
+        val spinnerTujuan = binding.spinnerTujuan
+
+        val stasiunPlaceholder = "Pilih stasiun"
+        val stasiunArray = resources.getStringArray(R.array.stasiun_kereta).toMutableList()
+        stasiunArray.add(0, stasiunPlaceholder)
+
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, stasiunArray)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        spinnerBerangkat.adapter = adapter
+        spinnerTujuan.adapter = adapter
+
+        spinnerBerangkat.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (spinnerBerangkat.selectedItem == spinnerTujuan.selectedItem) {
+                    Toast.makeText(requireContext(), "Stasiun asal dan tujuan tidak boleh sama.", Toast.LENGTH_SHORT).show()
+                    spinnerBerangkat.setSelection(0)
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // Do nothing
+            }
+        }
+
+        spinnerTujuan.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (spinnerBerangkat.selectedItem == spinnerTujuan.selectedItem) {
+                    Toast.makeText(requireContext(), "Stasiun asal dan tujuan tidak boleh sama.", Toast.LENGTH_SHORT).show()
+                    spinnerTujuan.setSelection(0)
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // Do nothing
+            }
+        }
+    }
+
+    private fun showDatePickerDialog() {
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+        val datePickerDialog = DatePickerDialog(requireContext(), DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
+            val selectedDate = "$year-${month + 1}-$dayOfMonth"
+            val inputTanggal = binding.inputTanggal
+            inputTanggal.setText(selectedDate)
+        }, year, month, day)
+
+        datePickerDialog.datePicker.minDate = System.currentTimeMillis() - 1000
+
+        datePickerDialog.show()
     }
 }
