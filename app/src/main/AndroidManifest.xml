@@ -13,13 +13,14 @@
         android:theme="@style/Theme.LoketKereta"
         tools:targetApi="31">
         <activity
+            android:name=".TrainInput"
+            android:exported="false" />
+        <activity
             android:name=".BookingActivity"
             android:exported="false" />
         <activity
             android:name=".DashboardActivity"
-            android:exported="false" >
-
-        </activity>
+            android:exported="false"></activity>
         <activity
             android:name=".OnBoardingActivity"
             android:exported="true">

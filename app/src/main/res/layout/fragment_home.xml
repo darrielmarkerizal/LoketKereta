@@ -95,103 +95,144 @@
         </LinearLayout>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/cardPerjalanan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            app:cardBackgroundColor="@color/white"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="-44dp"
+            android:layout_marginRight="8dp"
             app:cardCornerRadius="10dp"
-            app:cardElevation="5dp"
-            app:cardUseCompatPadding="true">
+            android:elevation="5dp"
+            app:cardUseCompatPadding="true"
+            app:contentPadding="16dp">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
+                <TextView
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:text="Pesan Tiketmu Sekarang"
+                    android:textSize="24sp"
+                    android:layout_marginBottom="8dp"
+                    android:gravity="center_horizontal"
+                    android:textStyle="bold" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_weight="1"
+                    android:layout_marginBottom="8dp">
+
                     <TextView
+                        android:id="@+id/textAsal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:textSize="16dp"
-                        android:textStyle="bold"
-                        android:text="Tanggal :"/>
-                    <TextView
-                        android:id="@+id/tanggal"
+                        android:text="Asal"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+
+                    <androidx.appcompat.widget.AppCompatSpinner
+                        android:id="@+id/spinner_berangkat"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_below="@+id/textAsal"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/spinner_background"
+                        android:spinnerMode="dropdown"/>
+
+                    <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:textSize="16dp"
-                        android:text="26 Oktober 2023"/>
-                </LinearLayout>
+                        android:layout_below="@+id/textAsal"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="20dp"
+                        android:src="@drawable/baseline_arrow_drop_down_24" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_weight="1"
+                    android:layout_marginBottom="8dp">
+
+                    <TextView
+                        android:id="@+id/textTujuan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tujuan"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+
+                    <androidx.appcompat.widget.AppCompatSpinner
+                        android:id="@+id/spinner_tujuan"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_below="@+id/textTujuan"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/spinner_background"
+                        android:spinnerMode="dropdown"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/textTujuan"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="20dp"
+                        android:src="@drawable/baseline_arrow_drop_down_24" />
+                </RelativeLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:onClick="showDatePickerDialog"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:textSize="16dp"
-                        android:textStyle="bold"
-                        android:text="Asal :"/>
-                    <TextView
-                        android:id="@+id/stasiunAsal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:textSize="16dp"
-                        android:text="Stasiun Gambir - Jakarta"/>
+                        android:text="Tanggal Perjalanan"
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/inputTanggal"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:backgroundTint="@color/primary"
+                        android:focusableInTouchMode="false"
+                        android:hint="Masukan tanggal perjalananmu"
+                        android:imeOptions="actionNext"
+                        android:inputType="date"
+                        android:maxLines="1"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
+
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
+                <Button
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:textSize="16dp"
-                        android:textStyle="bold"
-                        android:text="Tujuan :"/>
-                    <TextView
-                        android:id="@+id/stasiunTujuan"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:textSize="16dp"
-                        android:text="Stasiun Pasar Senen - Jakarta"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:textSize="16dp"
-                        android:textStyle="bold"
-                        android:text="Paket Tambahan :"/>
-                    <TextView
-                        android:id="@+id/paketTambahan"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
-                        android:textSize="16dp"
-                        android:text="WiFi"/>
-                </LinearLayout>
+                    android:text="Cari Tiket"
+                    android:layout_margin="10dp"
+                    android:textColor="@color/white"
+                    android:layout_gravity="center_horizontal"
+                    android:backgroundTint="@color/primary"/>
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
+
+
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -202,63 +243,102 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:text="Pilih Jadwal Perjalananmu"
-                    android:textSize="20dp"
-                    android:textStyle="bold"/>
-
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/pesan_tiket"
+                    android:id="@+id/cardPerjalanan"
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    app:cardBackgroundColor="@color/white"
                     app:cardCornerRadius="10dp"
                     app:cardElevation="5dp"
                     app:cardUseCompatPadding="true">
 
                     <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/bg_home_wave"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
                         android:orientation="vertical">
 
-                        <TextView
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="20dp"
-                            android:layout_marginTop="10dp"
-                            android:text="Kereta Api"
-                            android:textColor="@color/white"
-                            android:textSize="30sp"
-                            android:textStyle="bold" />
+                            android:orientation="horizontal">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="8dp"
+                                android:textSize="16dp"
+                                android:textStyle="bold"
+                                android:text="Tanggal :"/>
+                            <TextView
+                                android:id="@+id/tanggal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="8dp"
+                                android:textSize="16dp"
+                                android:text="26 Oktober 2023"/>
+                        </LinearLayout>
 
-                        <TextView
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="20dp"
-                            android:layout_marginTop="30dp"
-                            android:background="@drawable/bg_rounded_trans"
-                            android:backgroundTint="@color/white"
-                            android:backgroundTintMode="add"
-                            android:padding="6dp"
-                            android:text="Pesan Tiket"
-                            android:textColor="@color/primary"
-                            android:textSize="12sp"
-                            android:textStyle="bold" />
+                            android:orientation="horizontal">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="8dp"
+                                android:textSize="16dp"
+                                android:textStyle="bold"
+                                android:text="Asal :"/>
+                            <TextView
+                                android:id="@+id/stasiunAsal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="8dp"
+                                android:textSize="16dp"
+                                android:text="Stasiun Gambir - Jakarta"/>
+                        </LinearLayout>
 
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="8dp"
+                                android:textSize="16dp"
+                                android:textStyle="bold"
+                                android:text="Tujuan :"/>
+                            <TextView
+                                android:id="@+id/stasiunTujuan"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="8dp"
+                                android:textSize="16dp"
+                                android:text="Stasiun Pasar Senen - Jakarta"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="8dp"
+                                android:textSize="16dp"
+                                android:textStyle="bold"
+                                android:text="Paket Tambahan :"/>
+                            <TextView
+                                android:id="@+id/paketTambahan"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="8dp"
+                                android:textSize="16dp"
+                                android:text="WiFi"/>
+                        </LinearLayout>
                     </LinearLayout>
-
-                    <ImageView
-                        android:layout_width="200dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end|center"
-                        android:src="@drawable/traincard"
-                        app:tint="@color/white" />
 
                 </androidx.cardview.widget.CardView>
 
@@ -272,7 +352,7 @@
                     app:cardCornerRadius="16dp">
 
                     <CalendarView
-                        android:layout_width="350dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:weekNumberColor="@color/primary"
                         android:weekSeparatorLineColor="@color/primary"

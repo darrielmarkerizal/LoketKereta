@@ -16,6 +16,8 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import android.util.Log
+import java.util.Calendar
+import android.app.DatePickerDialog
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
@@ -46,11 +48,6 @@ class HomeFragment : Fragment() {
                     Log.w("HomeFragment", "Failed to read value.", error.toException())
                 }
             })
-        }
-
-        binding.pesanTiket.setOnClickListener {
-            val intent = Intent(requireContext(), BookingActivity::class.java)
-            startActivity(intent)
         }
 
         val tanggal = arguments?.getString("tanggal")
