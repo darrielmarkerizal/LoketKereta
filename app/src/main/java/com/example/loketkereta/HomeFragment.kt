@@ -20,6 +20,10 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.loketkereta.jadwal.JadwalKereta
+import com.example.loketkereta.jadwal.TrainScheduleAdapter
 import com.example.loketkereta.stasiun.Stasiun
 import com.example.loketkereta.stasiun.StationApi
 import com.google.firebase.firestore.DocumentSnapshot
@@ -55,6 +59,10 @@ class HomeFragment : Fragment() {
 
         fetchAndDisplayUserName()
         setupStationsSpinner()
+
+        binding.swapIcon.setOnClickListener {
+            swapDepartureAndDestination()
+        }
 
         return view
     }
@@ -198,6 +206,14 @@ class HomeFragment : Fragment() {
             passengerCount.text = newCount.toString()
             Log.d("PassengerCount", "Current Count (After): $newCount")
         }
+    }
+
+    private fun swapDepartureAndDestination() {
+        val departureStation = binding.spinnerKeberangkatan.selectedItemPosition
+        val destinationStation = binding.spinnerTujuan.selectedItemPosition
+
+        binding.spinnerKeberangkatan.setSelection(destinationStation)
+        binding.spinnerTujuan.setSelection(departureStation)
     }
 
     override fun onDestroyView() {

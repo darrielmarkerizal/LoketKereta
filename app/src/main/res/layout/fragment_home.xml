@@ -39,15 +39,15 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_centerInParent="true"
-                android:orientation="vertical"
-                android:layout_marginBottom="64dp">
+                android:layout_marginBottom="64dp"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Selamat Datang"
                     android:textColor="@color/white"
-                    android:textSize="16dp"/>
+                    android:textSize="16dp" />
 
                 <TextView
                     android:id="@+id/namaUser"
@@ -55,8 +55,8 @@
                     android:layout_height="wrap_content"
                     android:text="Yodhimas Geffananda"
                     android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:textSize="26dp"/>
+                    android:textSize="26dp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
@@ -98,7 +98,7 @@
                     android:letterSpacing="-0.02"
                     android:lineSpacingExtra="0sp"
                     android:text="Keberangkatan"
-                    android:textColor="#2d9cdb"
+                    android:textColor="@color/primary"
                     android:textSize="12sp"
                     android:textStyle="bold" />
 
@@ -116,7 +116,7 @@
                     android:lineSpacingExtra="0sp"
                     android:text="Tujuan"
                     android:textAlignment="textEnd"
-                    android:textColor="#2d9cdb"
+                    android:textColor="@color/primary"
                     android:textSize="12sp"
                     android:textStyle="bold" />
 
@@ -146,6 +146,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.4"
                     android:gravity="end"
+                    android:textAlignment="textEnd"
                     android:layout_gravity="start" />
 
             </LinearLayout>
@@ -206,7 +207,7 @@
                     android:letterSpacing="-0.02"
                     android:lineSpacingExtra="0sp"
                     android:text="Tanggal keberangkatan"
-                    android:textColor="#2d9cdb"
+                    android:textColor="@color/primary"
                     android:textSize="12sp"
                     android:textStyle="bold" />
 
@@ -255,7 +256,7 @@
                         android:letterSpacing="-0.02"
                         android:lineSpacingExtra="0sp"
                         android:text="Jumlah penumpang"
-                        android:textColor="#2d9cdb"
+                        android:textColor="@color/primary"
                         android:textSize="12sp"
                         android:textStyle="bold" />
 
@@ -312,13 +313,38 @@
                     android:textColor="@color/white" />
 
             </LinearLayout>
+
+
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/text_view_tiket_saya"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="10sp"
+            android:textColor="#333e63"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@id/linearLayout"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="8dp"
+            app:layout_constraintStart_toStartOf="@id/linearLayout"
+            app:layout_constraintTop_toTopOf="@+id/linearLayout"
+            android:text="Tiket saya" />
 
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:scrollbars="none">
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none" />
 
-
-
+        </HorizontalScrollView>
     </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
