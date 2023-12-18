@@ -32,7 +32,6 @@ class HomeFragment : Fragment() {
         auth = FirebaseAuth.getInstance()
 
         fetchUserName()
-        fetchLatestBooking()
 
         return view
     }
@@ -56,51 +55,8 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun fetchLatestBooking() {
-        val db = FirebaseFirestore.getInstance()
-        val userId = FirebaseAuth.getInstance().currentUser!!.uid
-
-        db.collection("users").document(userId).collection("bookings")
-            .orderBy("timestamp", Query.Direction.DESCENDING)
-            .limit(1)
-            .get()
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val documents = task.result?.documents
-                    if (!documents.isNullOrEmpty()) {
-                        updateUIWithLatestBooking(documents[0])
-                    }
-                } else {
-                    Log.w("HomeFragment", "Error getting documents.", task.exception)
-                }
-            }
-    }
-
-    private fun updateUIWithLatestBooking(document: DocumentSnapshot) {
-        val tanggal = document.getString("tanggal")
-        val stasiunAsal = document.getString("stasiunBerangkat")
-        val stasiunTujuan = document.getString("stasiunTiba")
-        val paketTambahanList = document.get("paketTambahan") as List<String>?
-
-        binding.tanggal.text = tanggal
-        binding.stasiunAsal.text = stasiunAsal
-        binding.stasiunTujuan.text = stasiunTujuan
-
-        if (paketTambahanList.isNullOrEmpty()) {
-            binding.paketTambahan.text = "Tidak ada paket tambahan"
-        } else {
-            val paketTambahanText = paketTambahanList.joinToString(", ")
-            binding.paketTambahan.text = paketTambahanText
-        }
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        childFragmentManager.beginTransaction().apply {
-            replace(R.id.book_fragment_container, FragmentBook())
-            commit()
-        }
     }
 
     override fun onDestroyView() {
