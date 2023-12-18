@@ -22,8 +22,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.loketkereta.jadwal.JadwalKereta
-import com.example.loketkereta.jadwal.TrainScheduleAdapter
 import com.example.loketkereta.stasiun.Stasiun
 import com.example.loketkereta.stasiun.StationApi
 import com.google.firebase.firestore.DocumentSnapshot
@@ -62,6 +60,11 @@ class HomeFragment : Fragment() {
 
         binding.swapIcon.setOnClickListener {
             swapDepartureAndDestination()
+        }
+
+        binding.buttonCariTiket.setOnClickListener{
+            val intent = Intent(activity, DaftarJadwalActivity::class.java)
+            startActivity(intent)
         }
 
         return view
