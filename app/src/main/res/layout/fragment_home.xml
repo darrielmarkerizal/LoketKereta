@@ -127,16 +127,11 @@
                 android:layout_height="24dp"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/code_keberangkatan"
-                    android:layout_width="wrap_content"
+                <Spinner
+                    android:id="@+id/spinner_keberangkatan"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:letterSpacing="0.1"
-                    android:lineSpacingExtra="10sp"
-                    android:text="PWT"
-                    android:textColor="#59597c"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:layout_weight="1" />
 
                 <ImageView
                     android:id="@+id/swapIcon"
@@ -145,17 +140,11 @@
                     android:layout_weight="1"
                     app:srcCompat="@drawable/swap_horiz_fill0_wght400_grad0_opsz24" />
 
-                <TextView
-                    android:id="@+id/code_tujuan"
-                    android:layout_width="wrap_content"
+                <Spinner
+                    android:id="@+id/spinner_tujuan"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:letterSpacing="0.1"
-                    android:lineSpacingExtra="10sp"
-                    android:text="SLO"
-                    android:textColor="#59597c"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:layout_weight="1" />
 
             </LinearLayout>
 
@@ -240,8 +229,6 @@
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
-
-
 
             </LinearLayout>
 
