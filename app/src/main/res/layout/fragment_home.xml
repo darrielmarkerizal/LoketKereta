@@ -131,20 +131,22 @@
                     android:id="@+id/spinner_keberangkatan"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_weight="0.4" />
 
                 <ImageView
                     android:id="@+id/swapIcon"
-                    android:layout_width="272dp"
+                    android:layout_width="0dp"
                     android:layout_height="19dp"
-                    android:layout_weight="1"
+                    android:layout_weight="0.1"
                     app:srcCompat="@drawable/swap_horiz_fill0_wght400_grad0_opsz24" />
 
                 <Spinner
                     android:id="@+id/spinner_tujuan"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_weight="0.4"
+                    android:gravity="end"
+                    android:layout_gravity="start" />
 
             </LinearLayout>
 
@@ -211,6 +213,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/layoutTanggal"
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
                 android:orientation="horizontal">
@@ -220,7 +223,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:lineSpacingExtra="10sp"
-                    android:text="Rabu, 12 Agustus 2020"
+                    android:text="Pilih Tanggal Keberangkatan"
                     android:textColor="#59597c"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -278,9 +281,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:lineSpacingExtra="10sp"
-                            android:text="1"
+                            android:text="0"
                             android:textColor="#59597c"
-                            android:textSize="14sp"
+                            android:textSize="16sp"
                             android:textStyle="bold" />
 
                         <ImageView
