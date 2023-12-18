@@ -137,6 +137,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupPassengerCounter()
         setupTanggalKeberangkatan()
     }
 
@@ -173,6 +174,30 @@ class HomeFragment : Fragment() {
 
         val sdf = SimpleDateFormat("EEEE, dd MMMM yyyy", Locale("id", "ID"))
         return sdf.format(date)
+    }
+
+    private fun setupPassengerCounter() {
+        val minusImageView = binding.iconMinus
+        val addImageView = binding.iconPlus
+        val passengerCount = binding.jumlahPenumpang
+
+        minusImageView.setOnClickListener {
+            val currentCount = passengerCount.text.toString().toInt()
+            Log.d("PassengerCount", "Current Count (Before): $currentCount")
+            if (currentCount > 0) {
+                val newCount = currentCount - 1
+                passengerCount.text = newCount.toString()
+                Log.d("PassengerCount", "Current Count (After): $newCount")
+            }
+        }
+
+        addImageView.setOnClickListener {
+            val currentCount = passengerCount.text.toString().toInt()
+            Log.d("PassengerCount", "Current Count (Before): $currentCount")
+            val newCount = currentCount + 1
+            passengerCount.text = newCount.toString()
+            Log.d("PassengerCount", "Current Count (After): $newCount")
+        }
     }
 
     override fun onDestroyView() {
