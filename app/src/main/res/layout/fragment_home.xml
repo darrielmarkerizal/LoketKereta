@@ -94,142 +94,21 @@
 
         </LinearLayout>
 
+
+
         <androidx.cardview.widget.CardView
+            android:id="@+id/cardPerjalanan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="-44dp"
-            android:layout_marginRight="8dp"
+            android:layout_margin="10dp"
+            app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="10dp"
-            android:elevation="5dp"
-            app:cardUseCompatPadding="true"
-            app:contentPadding="16dp">
-
-            <LinearLayout
+            app:cardElevation="5dp"
+            app:cardUseCompatPadding="true">
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/book_fragment_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Pesan Tiketmu Sekarang"
-                    android:textSize="24sp"
-                    android:layout_marginBottom="8dp"
-                    android:gravity="center_horizontal"
-                    android:textStyle="bold" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
-                    android:layout_weight="1"
-                    android:layout_marginBottom="8dp">
-
-                    <TextView
-                        android:id="@+id/textAsal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Asal"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
-
-                    <androidx.appcompat.widget.AppCompatSpinner
-                        android:id="@+id/spinner_berangkat"
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:layout_below="@+id/textAsal"
-                        android:layout_marginTop="10dp"
-                        android:background="@drawable/spinner_background"
-                        android:spinnerMode="dropdown"/>
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/textAsal"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="20dp"
-                        android:src="@drawable/baseline_arrow_drop_down_24" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
-                    android:layout_weight="1"
-                    android:layout_marginBottom="8dp">
-
-                    <TextView
-                        android:id="@+id/textTujuan"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Tujuan"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
-
-                    <androidx.appcompat.widget.AppCompatSpinner
-                        android:id="@+id/spinner_tujuan"
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:layout_below="@+id/textTujuan"
-                        android:layout_marginTop="10dp"
-                        android:background="@drawable/spinner_background"
-                        android:spinnerMode="dropdown"/>
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/textTujuan"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="20dp"
-                        android:src="@drawable/baseline_arrow_drop_down_24" />
-                </RelativeLayout>
-
-                <LinearLayout
-                    android:onClick="showDatePickerDialog"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Tanggal Perjalanan"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/inputTanggal"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:backgroundTint="@color/primary"
-                        android:focusableInTouchMode="false"
-                        android:hint="Masukan tanggal perjalananmu"
-                        android:imeOptions="actionNext"
-                        android:inputType="date"
-                        android:maxLines="1"
-                        android:textColor="@color/black"
-                        android:textSize="16sp" />
-
-                </LinearLayout>
-
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Cari Tiket"
-                    android:layout_margin="10dp"
-                    android:textColor="@color/white"
-                    android:layout_gravity="center_horizontal"
-                    android:backgroundTint="@color/primary"/>
-            </LinearLayout>
-
+                android:layout_height="match_parent" />
         </androidx.cardview.widget.CardView>
 
 
@@ -244,7 +123,7 @@
                 android:orientation="vertical">
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/cardPerjalanan"
+                    android:id="@+id/perjalanSelanjutnya"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
@@ -342,26 +221,6 @@
 
                 </androidx.cardview.widget.CardView>
 
-                <androidx.cardview.widget.CardView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="10dp"
-                    app:cardCornerRadius="16dp">
-
-                    <CalendarView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:weekNumberColor="@color/primary"
-                        android:weekSeparatorLineColor="@color/primary"
-                        android:focusedMonthDateColor="@color/primary"
-                        android:selectedWeekBackgroundColor="@color/primary"
-                        android:id="@+id/calendar"
-                        android:firstDayOfWeek="2"/>
-
-                </androidx.cardview.widget.CardView>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 
