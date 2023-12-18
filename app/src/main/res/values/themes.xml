@@ -10,4 +10,10 @@
     <style name="App.Custom.indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
         <item name="android:color">#00FFFFFF</item>
     </style>
+    <style name="ThemeSpinner">
+        <!-- Color when pressed -->
+        <item name="colorAccent">#2596d7</item>
+        <!-- Default color for the dropdown arrow and line -->
+        <item name="colorControlNormal">#2596d7</item>
+    </style>
 </resources>

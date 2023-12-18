@@ -15,6 +15,9 @@
         android:theme="@style/Theme.LoketKereta"
         tools:targetApi="31">
         <activity
+            android:name=".BookingDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".DaftarJadwalActivity"
             android:exported="false" />
         <activity

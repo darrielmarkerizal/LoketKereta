@@ -19,6 +19,11 @@ class DaftarJadwalActivity : AppCompatActivity() {
             onBackPressed()
         }
 
+        binding.linearTanggal1.setOnClickListener{
+            val intent = Intent(this, BookingDetailActivity::class.java)
+            startActivity(intent)
+        }
+
         val keretaList: ArrayList<dataKereta> = arrayListOf()
 
         keretaList.add(dataKereta(
