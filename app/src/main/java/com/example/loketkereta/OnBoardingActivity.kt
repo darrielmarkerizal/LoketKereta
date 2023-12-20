@@ -23,7 +23,7 @@ class OnBoardingActivity : AppCompatActivity() {
 
         btnCreateAccount = binding.btnToRegister
         btnCreateAccount.setOnClickListener {
-            val intent = Intent(this, RegisterActivity::class.java)
+            val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
 

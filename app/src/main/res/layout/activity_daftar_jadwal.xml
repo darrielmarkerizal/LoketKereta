@@ -60,6 +60,7 @@
             android:padding="8dp">
 
             <TextView
+                android:id="@+id/tanggal1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
@@ -71,6 +72,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/hari1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
@@ -93,6 +95,7 @@
             android:padding="8dp">
 
             <TextView
+                android:id="@+id/tanggal2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
@@ -104,6 +107,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/hari2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
@@ -126,6 +130,7 @@
             android:padding="8dp">
 
             <TextView
+                android:id="@+id/tanggalSelected"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
@@ -137,6 +142,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/hariSelected"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
@@ -159,6 +165,7 @@
             android:padding="8dp">
 
             <TextView
+                android:id="@+id/tanggal4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
@@ -170,6 +177,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/hari4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
@@ -192,6 +200,7 @@
             android:padding="8dp">
 
             <TextView
+                android:id="@+id/tanggal5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
@@ -203,6 +212,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/hari5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"

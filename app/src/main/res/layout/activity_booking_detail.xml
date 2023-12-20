@@ -354,12 +354,13 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="51dp"
+                android:layout_gravity="center_vertical"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="12dp"
                 android:orientation="horizontal">
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/button2"
+                    android:id="@+id/btnBatal"
                     android:layout_width="170dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/gray_button_rounded_background"
@@ -372,7 +373,7 @@
                     android:layout_weight="1" />
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/buttonPickSeat"
+                    android:id="@+id/btnLanjut"
                     android:layout_width="170dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="6dp"

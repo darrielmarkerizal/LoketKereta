@@ -1,136 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/bg"
-    tools:context=".RegisterActivity">
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/primary"
-        android:alpha="0.6"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="48dp">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/logo"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="LoketKereta"
-            android:textStyle="bold"
-            android:fontFamily="sans-serif-medium"
-            android:textSize="32sp"
-            android:textColor="@color/white"/>
-
-    </LinearLayout>
+    android:layout_height="match_parent">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        app:cardCornerRadius="28dp"
-        android:layout_marginBottom="-20dp">
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        app:cardCornerRadius="28dp">
 
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <LinearLayout
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tab_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="28dp"
-                android:orientation="vertical">
+                app:tabMode="fixed"
+                app:tabGravity="fill" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/primary"
-                    android:text="Selamat Datang"
-                    android:textSize="32sp"
-                    android:textStyle="bold"/>
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                gravity="center"
+                android:layout_weight="1" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/text_secondary"
-                    android:text="Langkah Selanjutnya Menuju Petualangan Baru Anda"/>
+        </LinearLayout>
 
-                <View
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Email"
-                    android:textColor="@color/text_primary"
-                    android:alpha="0.7"
-                    android:textStyle="bold"/>
-
-                <EditText
-                    android:id="@+id/emailInput"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text"
-                    android:hint="Masukkan Email Anda"/>
-
-                <View
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Password"
-                    android:textColor="@color/text_primary"
-                    android:alpha="0.7"
-                    android:textStyle="bold"/>
-
-                <EditText
-                    android:id="@+id/passwordInput"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPassword"
-                    android:hint="Masukkan Password Anda"/>
-
-
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Saya Lupa Kata Sandi Saya"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"/>
-                </RelativeLayout>
-                <View
-                    android:layout_width="wrap_content"
-                    android:layout_height="10dp"/>
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnToDashboard"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:text="Lanjutkan Petualangan"
-                    app:cornerRadius="32dp"
-                    android:backgroundTint="@color/primary"/>
-            </LinearLayout>
-        </ScrollView>
     </androidx.cardview.widget.CardView>
-
-
 
 </RelativeLayout>

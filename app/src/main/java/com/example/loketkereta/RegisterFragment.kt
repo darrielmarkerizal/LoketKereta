@@ -1,44 +1,49 @@
 package com.example.loketkereta
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import android.content.Intent
-import android.widget.Toast
 import android.app.DatePickerDialog
+import android.content.Context
+import android.content.Intent
+import android.os.Bundle
 import android.util.Log
-import com.example.loketkereta.databinding.ActivityRegisterBinding
-import java.util.Calendar
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Toast
+import com.example.loketkereta.databinding.FragmentRegisterBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
-import android.content.Context
+import java.util.Calendar
 
-class RegisterActivity : AppCompatActivity() {
+class RegisterFragment : Fragment() {
 
-    private lateinit var binding: ActivityRegisterBinding
+    private lateinit var binding: FragmentRegisterBinding
     private lateinit var auth: FirebaseAuth
+    private val TAG = "RegisterFragment"
     private var selectedBirthDate: String = ""
-    private val TAG = "RegisterActivity"
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityRegisterBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        binding  = FragmentRegisterBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         auth = FirebaseAuth.getInstance()
 
-        binding.loginLink.setOnClickListener {
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
-        }
-
-        val sharedPreferences = getSharedPreferences("LoginPreferences", Context.MODE_PRIVATE)
+        val sharedPreferences = requireActivity().getSharedPreferences("LoginPreferences", Context.MODE_PRIVATE)
         if (sharedPreferences.getBoolean("isLoggedIn", false)) {
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(requireActivity(), MainActivity::class.java)
             startActivity(intent)
-            finish()
+            requireActivity().finish()
         }
 
-        val registerButton = binding.btnToLogin
+        val registerButton = binding.btnToDashboardRegister
         registerButton.setOnClickListener {
             val email = binding.emailInput.text.toString()
             val password = binding.passwordInput.text.toString()
@@ -51,7 +56,7 @@ class RegisterActivity : AppCompatActivity() {
                 registerUser(email, password, fullName, birthDate)
             } else {
                 Log.d(TAG, "User age validation failed")
-                Toast.makeText(this, "Anda harus berusia minimal 15 tahun untuk mendaftar.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Anda harus berusia minimal 15 tahun untuk mendaftar.", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -61,17 +66,28 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun registerUser(email: String, password: String, fullName: String, birthDate: String) {
+        val auth = FirebaseAuth.getInstance()
         auth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this) { task ->
+            .addOnCompleteListener(requireActivity()) { task ->
                 if (task.isSuccessful) {
                     val user = auth.currentUser
                     Log.d(TAG, "createUserWithEmail:success")
                     saveUserDataToDatabase(user?.uid, fullName, birthDate)
-                    val intent = Intent(this, LoginActivity::class.java)
+
+                    // Mengubah Intent ke MainActivity
+                    val intent = Intent(requireActivity(), MainActivity::class.java)
                     startActivity(intent)
+
+                    // Memperbarui SharedPreferences setelah berhasil mendaftar
+                    val sharedPreferences = requireActivity().getSharedPreferences("LoginPreferences", Context.MODE_PRIVATE)
+                    val editor = sharedPreferences.edit()
+                    editor.putBoolean("isLoggedIn", true)
+                    editor.apply()
+
+                    requireActivity().finish()
                 } else {
                     Log.d(TAG, "createUserWithEmail:failure", task.exception)
-                    Toast.makeText(this, "Authentication failed.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Authentication failed.", Toast.LENGTH_SHORT).show()
                 }
             }
     }
@@ -122,7 +138,7 @@ class RegisterActivity : AppCompatActivity() {
         val month = calendar.get(Calendar.MONTH)
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
-        val datePickerDialog = DatePickerDialog(this, DatePickerDialog.OnDateSetListener { _, selectedYear, selectedMonth, selectedDay ->
+        val datePickerDialog = DatePickerDialog(requireContext(), DatePickerDialog.OnDateSetListener { _, selectedYear, selectedMonth, selectedDay ->
             selectedBirthDate = "$selectedYear-${selectedMonth + 1}-$selectedDay"
             binding.birthInput.setText(selectedBirthDate)
         }, year, month, day)
