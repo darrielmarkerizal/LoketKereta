@@ -12,11 +12,11 @@ class KeretaAdapter(private val context: Activity, private val arrayList: ArrayL
         val binding = ListJadwalKeretaBinding.inflate(LayoutInflater.from(context), parent, false)
 
         binding.hargaTiket.text = arrayList[position].harga
-        binding.stasiunKeberangkatan.text = arrayList[position].keberangkatan
+        binding.stasiunKeberangkatan.text = arrayList[position].stasiunKeberangkatan
         binding.jamBerangkat.text = arrayList[position].jamBerangkat
         binding.sisaKursi.text = arrayList[position].sisa
         binding.namaKereta.text = arrayList[position].namaKereta
-        binding.stasiunTujuan.text = arrayList[position].tujuan
+        binding.stasiunTujuan.text = arrayList[position].stasiunTujuan
         binding.jamTiba.text = arrayList[position].jamTiba
         binding.kelasKereta.text = arrayList[position].kelasKereta
         binding.waktuPerjalanan.text = arrayList[position].durasiPerjalanan

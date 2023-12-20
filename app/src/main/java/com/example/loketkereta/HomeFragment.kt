@@ -64,8 +64,19 @@ class HomeFragment : Fragment() {
         }
 
         binding.buttonCariTiket.setOnClickListener{
-            val intent = Intent(activity, DaftarJadwalActivity::class.java)
-            startActivity(intent)
+            val departureStation = binding.spinnerKeberangkatan.selectedItem.toString().split(",")[0]
+            val destinationStation = binding.spinnerTujuan.selectedItem.toString().split(",")[0]
+            val departureDate = binding.tanggalKeberangkatan.text.toString()
+            val passengerCount = binding.jumlahPenumpang.text.toString().toInt()
+
+            if (departureStation.isNotEmpty() && destinationStation.isNotEmpty() && departureDate.isNotEmpty() && passengerCount > 0) {
+                val intent = Intent(activity, DaftarJadwalActivity::class.java)
+                intent.putExtra("departureStation", departureStation)
+                intent.putExtra("destinationStation", destinationStation)
+                startActivity(intent)
+            } else {
+                Toast.makeText(context, "Harap pilih stasiun, tanggal keberangkatan, dan jumlah penumpang", Toast.LENGTH_SHORT).show()
+            }
         }
 
         return view
@@ -95,6 +106,7 @@ class HomeFragment : Fragment() {
         call.enqueue(object : Callback<List<Stasiun>> {
             override fun onResponse(call: Call<List<Stasiun>>, response: Response<List<Stasiun>>) {
                 if (response.isSuccessful) {
+                    Log.d("HomeFragment", "Response: ${response.body()}")
                     val stations = response.body()
                     val stationDetails = stations?.map { Triple(it.code, "${it.name}, ${it.cityName}", it.code) }?.toMutableList() ?: mutableListOf()
                     stationDetails.add(0, Triple("", "Pilih Stasiun", ""))
@@ -151,7 +163,7 @@ class HomeFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<List<Stasiun>>, t: Throwable) {
-                // Handle the error
+                Log.e("HomeFragment", "Error: ${t.message}")
             }
         })
     }
