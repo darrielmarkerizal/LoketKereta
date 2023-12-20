@@ -14,6 +14,7 @@ import java.util.Locale
 
 class DaftarJadwalActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDaftarJadwalBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDaftarJadwalBinding.inflate(layoutInflater)
@@ -29,6 +30,9 @@ class DaftarJadwalActivity : AppCompatActivity() {
         val sdfDay = SimpleDateFormat("dd", Locale("id", "ID"))
         val sdfDayOfWeek = SimpleDateFormat("EEE", Locale("id", "ID"))
 
+        val sdfMonth = SimpleDateFormat("MM", Locale("id", "ID"))
+        val year = Calendar.getInstance().get(Calendar.YEAR)
+
         binding.tanggalSelected.text = sdfDay.format(date)
         binding.hariSelected.text = sdfDayOfWeek.format(date).uppercase(Locale.ROOT)
 
@@ -41,7 +45,33 @@ class DaftarJadwalActivity : AppCompatActivity() {
             calendar.add(Calendar.DATE, if (i == 0) -2 else if (i == 1) -1 else if (i == 2) 1 else 2)
             tanggalViews[i].text = sdfDay.format(calendar.time)
             hariViews[i].text = sdfDayOfWeek.format(calendar.time).uppercase(Locale.ROOT)
-            calendar.time = sdf.parse(departureDate)
+            calendar.time = date
+        }
+
+//        ToDo : Logic update tanggal masih salah
+        val linearTanggalViews = listOf(binding.linearTanggal1, binding.linearTanggal2, binding.linearTanggalSelected, binding.linearTanggal4, binding.linearTanggal5)
+
+        for (i in linearTanggalViews.indices) {
+            linearTanggalViews[i].setOnClickListener {
+                val selectedTanggal = tanggalViews[i].text.toString()
+                val selectedHari = hariViews[i].text.toString()
+
+                binding.tanggalSelected.text = selectedTanggal
+                binding.hariSelected.text = selectedHari
+
+                val calendar = Calendar.getInstance()
+                calendar.time = sdf.parse("$selectedTanggal-${sdfMonth.format(date)}-$year")
+
+                for (j in tanggalViews.indices) {
+                    val diff = j - i
+                    calendar.add(Calendar.DATE, diff)
+                    if (j != i) { // Avoid accessing the selected date
+                        tanggalViews[j].text = sdfDay.format(calendar.time)
+                        hariViews[j].text = sdfDayOfWeek.format(calendar.time).uppercase(Locale.ROOT)
+                    }
+                    calendar.time = sdf.parse("$selectedTanggal-${sdfMonth.format(date)}-$year")
+                }
+            }
         }
         binding.ruteKereta.text = "$departureStation - $destinationStation"
 
@@ -72,8 +102,8 @@ class DaftarJadwalActivity : AppCompatActivity() {
         ))
 
         val filteredKeretaList = ArrayList(keretaList.filter {
-            it.stasiunKeberangkatan.lowercase() == departureStation?.lowercase() &&
-                    it.stasiunTujuan.lowercase() == destinationStation?.lowercase() &&
+            it.stasiunKeberangkatan.equals(departureStation, ignoreCase = true) &&
+                    it.stasiunTujuan.equals(destinationStation, ignoreCase = true) &&
                     it.tanggalBerangkat == departureDate
         })
 
