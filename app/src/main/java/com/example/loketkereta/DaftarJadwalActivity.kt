@@ -8,6 +8,9 @@ import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import com.example.loketkereta.kereta.dataKereta
 import com.example.loketkereta.databinding.ActivityDaftarJadwalBinding
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 class DaftarJadwalActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDaftarJadwalBinding
@@ -19,8 +22,27 @@ class DaftarJadwalActivity : AppCompatActivity() {
         val departureStation = intent.getStringExtra("departureStation")
         val destinationStation = intent.getStringExtra("destinationStation")
         val departureDate = intent.getStringExtra("departureDate")
-        Log.d("departureDate", departureDate.toString())
 
+        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale("id", "ID"))
+        val date = sdf.parse(departureDate)
+
+        val sdfDay = SimpleDateFormat("dd", Locale("id", "ID"))
+        val sdfDayOfWeek = SimpleDateFormat("EEE", Locale("id", "ID"))
+
+        binding.tanggalSelected.text = sdfDay.format(date)
+        binding.hariSelected.text = sdfDayOfWeek.format(date).uppercase(Locale.ROOT)
+
+        val calendar = Calendar.getInstance()
+        calendar.time = date
+
+        val tanggalViews = listOf(binding.tanggal1, binding.tanggal2, binding.tanggal4, binding.tanggal5)
+        val hariViews = listOf(binding.hari1, binding.hari2, binding.hari4, binding.hari5)
+        for (i in tanggalViews.indices) {
+            calendar.add(Calendar.DATE, if (i == 0) -2 else if (i == 1) -1 else if (i == 2) 1 else 2)
+            tanggalViews[i].text = sdfDay.format(calendar.time)
+            hariViews[i].text = sdfDayOfWeek.format(calendar.time).uppercase(Locale.ROOT)
+            calendar.time = sdf.parse(departureDate)
+        }
         binding.ruteKereta.text = "$departureStation - $destinationStation"
 
         binding.backButton.setOnClickListener {
