@@ -1,5 +1,7 @@
 package com.example.loketkereta.kereta
 
+import java.io.Serializable
+
 data class dataKereta(
     var harga: String? = null,
     var stasiunKeberangkatan: String? = null,
@@ -13,4 +15,4 @@ data class dataKereta(
     var kelasKereta: String? = null,
     var durasiPerjalanan: String? = null,
     var tanggalBerangkat: String? = null
-)
+) : Serializable

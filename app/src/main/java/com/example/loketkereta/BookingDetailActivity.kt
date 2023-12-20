@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.LinearLayout
 import com.example.loketkereta.databinding.ActivityBookingDetailBinding
 import com.example.loketkereta.databinding.PassengerCardBinding
+import com.example.loketkereta.kereta.dataKereta
 
 class BookingDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityBookingDetailBinding
@@ -16,6 +17,19 @@ class BookingDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityBookingDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val kereta = intent.getSerializableExtra("kereta") as dataKereta
+
+        binding.jadwalSelected.hargaTiket.text = kereta.harga
+        binding.jadwalSelected.stasiunKeberangkatan.text = kereta.stasiunKeberangkatan
+        binding.jadwalSelected.jamBerangkat.text = kereta.jamBerangkat
+        binding.jadwalSelected.sisaKursi.text = kereta.sisaTiket
+        binding.jadwalSelected.namaKereta.text = kereta.namaKereta
+        binding.jadwalSelected.stasiunTujuan.text = kereta.stasiunTujuan
+        binding.jadwalSelected.jamTiba.text = kereta.jamTiba
+        binding.jadwalSelected.kelasKereta.text = kereta.kelasKereta
+        binding.jadwalSelected.waktuPerjalanan.text = kereta.durasiPerjalanan
+        binding.jadwalSelected.selectKeretaButton.visibility = View.GONE
 
         binding.btnBatal.setOnClickListener {
             val intent = Intent(this, DaftarJadwalActivity::class.java)

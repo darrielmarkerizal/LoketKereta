@@ -87,7 +87,6 @@
 
         <Spinner
             android:id="@+id/spinnerIdentitas"
-            style="@style/Base.Widget.AppCompat.Spinner.Underlined"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:spinnerMode="dropdown"
