@@ -20,6 +20,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.loketkereta.stasiun.Stasiun
@@ -112,8 +113,13 @@ class HomeFragment : Fragment() {
                             if (position != 0) {
                                 val selectedStation = stationDetails[position]
                                 val stationName = selectedStation.second.split(",")[0].toLowerCase().capitalize()
-                                binding.stasiunKeberangkatan.setText("Stasiun " + stationName)
-                                binding.stasiunKeberangkatan.visibility = View.VISIBLE
+                                if (position == binding.spinnerTujuan.selectedItemPosition) {
+                                    Toast.makeText(context, "Stasiun keberangkatan dan tujuan tidak boleh sama", Toast.LENGTH_SHORT).show()
+                                    binding.spinnerKeberangkatan.setSelection(0)
+                                } else {
+                                    binding.stasiunKeberangkatan.setText("Stasiun " + stationName)
+                                    binding.stasiunKeberangkatan.visibility = View.VISIBLE
+                                }
                             }
                         }
 
@@ -127,8 +133,13 @@ class HomeFragment : Fragment() {
                             if (position != 0) {
                                 val selectedStation = stationDetails[position]
                                 val stationName = selectedStation.second.split(",")[0].toLowerCase().capitalize()
-                                binding.stasiunTujuan.setText("Stasiun " + stationName)
-                                binding.stasiunTujuan.visibility = View.VISIBLE
+                                if (position == binding.spinnerKeberangkatan.selectedItemPosition) {
+                                    Toast.makeText(context, "Stasiun keberangkatan dan tujuan tidak boleh sama", Toast.LENGTH_SHORT).show()
+                                    binding.spinnerTujuan.setSelection(0)
+                                } else {
+                                    binding.stasiunTujuan.setText("Stasiun " + stationName)
+                                    binding.stasiunTujuan.visibility = View.VISIBLE
+                                }
                             }
                         }
 
@@ -215,8 +226,12 @@ class HomeFragment : Fragment() {
         val departureStation = binding.spinnerKeberangkatan.selectedItemPosition
         val destinationStation = binding.spinnerTujuan.selectedItemPosition
 
-        binding.spinnerKeberangkatan.setSelection(destinationStation)
-        binding.spinnerTujuan.setSelection(departureStation)
+        if (departureStation == destinationStation) {
+            Toast.makeText(context, "Stasiun keberangkatan dan tujuan tidak boleh sama", Toast.LENGTH_SHORT).show()
+        } else {
+            binding.spinnerKeberangkatan.setSelection(destinationStation)
+            binding.spinnerTujuan.setSelection(departureStation)
+        }
     }
 
     override fun onDestroyView() {
