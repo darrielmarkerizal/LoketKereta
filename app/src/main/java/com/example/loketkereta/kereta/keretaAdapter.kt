@@ -14,7 +14,7 @@ class KeretaAdapter(private val context: Activity, private val arrayList: ArrayL
         binding.hargaTiket.text = arrayList[position].harga
         binding.stasiunKeberangkatan.text = arrayList[position].stasiunKeberangkatan
         binding.jamBerangkat.text = arrayList[position].jamBerangkat
-        binding.sisaKursi.text = arrayList[position].sisa
+        binding.sisaKursi.text = arrayList[position].sisaTiket
         binding.namaKereta.text = arrayList[position].namaKereta
         binding.stasiunTujuan.text = arrayList[position].stasiunTujuan
         binding.jamTiba.text = arrayList[position].jamTiba
