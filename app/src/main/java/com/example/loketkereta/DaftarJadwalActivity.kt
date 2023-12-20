@@ -4,6 +4,7 @@ import KeretaAdapter
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import com.example.loketkereta.kereta.dataKereta
 import com.example.loketkereta.databinding.ActivityDaftarJadwalBinding
@@ -17,6 +18,8 @@ class DaftarJadwalActivity : AppCompatActivity() {
 
         val departureStation = intent.getStringExtra("departureStation")
         val destinationStation = intent.getStringExtra("destinationStation")
+        val departureDate = intent.getStringExtra("departureDate")
+        Log.d("departureDate", departureDate.toString())
 
         binding.ruteKereta.text = "$departureStation - $destinationStation"
 
@@ -48,7 +51,8 @@ class DaftarJadwalActivity : AppCompatActivity() {
 
         val filteredKeretaList = ArrayList(keretaList.filter {
             it.stasiunKeberangkatan.lowercase() == departureStation?.lowercase() &&
-                    it.stasiunTujuan.lowercase() == destinationStation?.lowercase()
+                    it.stasiunTujuan.lowercase() == destinationStation?.lowercase() &&
+                    it.tanggalBerangkat == departureDate
         })
 
         val keretaAdapter = KeretaAdapter(this, filteredKeretaList)

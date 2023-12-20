@@ -66,13 +66,17 @@ class HomeFragment : Fragment() {
         binding.buttonCariTiket.setOnClickListener{
             val departureStation = binding.spinnerKeberangkatan.selectedItem.toString().split(",")[0]
             val destinationStation = binding.spinnerTujuan.selectedItem.toString().split(",")[0]
-            val departureDate = binding.tanggalKeberangkatan.text.toString()
+            val sdf = SimpleDateFormat("EEEE, dd MMMM yyyy", Locale("id", "ID"))
+            val date = sdf.parse(binding.tanggalKeberangkatan.text.toString())
+            val sdfNewFormat = SimpleDateFormat("yyyy-MM-dd", Locale("id", "ID"))
+            val departureDate = sdfNewFormat.format(date)
             val passengerCount = binding.jumlahPenumpang.text.toString().toInt()
 
             if (departureStation.isNotEmpty() && destinationStation.isNotEmpty() && departureDate.isNotEmpty() && passengerCount > 0) {
                 val intent = Intent(activity, DaftarJadwalActivity::class.java)
                 intent.putExtra("departureStation", departureStation)
                 intent.putExtra("destinationStation", destinationStation)
+                intent.putExtra("departureDate", departureDate)
                 startActivity(intent)
             } else {
                 Toast.makeText(context, "Harap pilih stasiun, tanggal keberangkatan, dan jumlah penumpang", Toast.LENGTH_SHORT).show()
