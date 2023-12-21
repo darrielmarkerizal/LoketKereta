@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".BookingSuccessActivity">
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:gravity="center"
+        android:lineSpacingExtra="6sp"
+        android:text="Pemesanan Berhasil"
+        android:textColor="#333e63"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.461"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.022" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="32dp"
+        app:cardBackgroundColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:cardUseCompatPadding="true">
+        <RelativeLayout
+            android:id="@+id/relativeLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <ImageView
+
+                android:id="@+id/train_logo"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:paddingHorizontal="70dp"
+                android:src="@drawable/kai_logo" />
+
+            <LinearLayout
+                android:id="@+id/layout_jam"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/train_logo"
+                android:gravity="center_horizontal">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginHorizontal="15dp"
+
+                    >
+                    <TextView
+                        android:id="@+id/jam_keberangkatan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="11.00"
+                        android:textStyle="bold"
+                        android:textSize="22dp"
+                        />
+                    <TextView
+                        android:id="@+id/kota_keberangkatan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="JKT" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="160dp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/img_train2" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginHorizontal="15dp"
+                    >
+                    <TextView
+                        android:id="@+id/jam_tiba"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="11.00"
+                        android:textSize="22dp"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/kota_tiba"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="JKT" />
+                </LinearLayout>
+            </LinearLayout>
+            <ImageView
+                android:id="@+id/img_dash"
+                android:layout_width="450dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/img_dash"
+                android:layout_below="@id/layout_jam"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/img_dash"
+                android:layout_marginHorizontal="40dp"
+                android:id="@+id/layout_jadwal">
+
+                <LinearLayout
+                    android:id="@+id/layout_jadwal_tanggal"
+                    android:layout_width="wrap_content"
+                    android:textAlignment="textStart"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/btn_outline"
+                    android:padding="10dp"
+                    android:layout_marginRight="15dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:src="@drawable/calendar" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingHorizontal="5dp"
+                            android:text="Keberangkatan"
+                            android:textSize="10dp" />
+
+                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/tanggal_keberangkatan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textAlignment="center"
+                        android:textSize="10dp"
+                        android:layout_marginTop="5dp"
+                        android:textColor="@color/secondaryText"
+                        android:text="Jumat, 20 Des 23"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/layout_jadwal_waktu"
+                    android:layout_width="wrap_content"
+                    android:textAlignment="textStart"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/btn_outline"
+                    android:padding="10dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:src="@drawable/clock_outline" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingHorizontal="5dp"
+                            android:text="Waktu"
+                            android:textSize="10dp" />
+
+                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/waktu_keberangkatan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textAlignment="center"
+                        android:textSize="10dp"
+                        android:layout_marginTop="5dp"
+                        android:textColor="@color/secondaryText"
+                        android:text="16:45 WIB"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/img_dash2"
+                android:layout_width="450dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/img_dash"
+                android:layout_below="@id/layout_jadwal"/>
+
+            <ImageView
+                android:id="@+id/bar"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:src="@drawable/barcode"
+                android:layout_below="@id/img_dash2"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSelesai"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/bar"
+                android:background="@drawable/blue_button_background"
+                android:text="Selesai"
+                android:textColor="@color/white" />
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>
