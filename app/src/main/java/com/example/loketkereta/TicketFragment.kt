@@ -1,59 +1,64 @@
 package com.example.loketkereta
 
+import KeretaAdapter
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.loketkereta.databinding.FragmentTicketBinding
+import com.example.loketkereta.kereta.TiketSayaAdapter
+import com.example.loketkereta.kereta.dataKereta
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [TicketFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class TicketFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private lateinit var binding: FragmentTicketBinding
+    private val db = FirebaseFirestore.getInstance()
+    private val auth = FirebaseAuth.getInstance()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        binding = FragmentTicketBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_ticket, container, false)
-    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment TicketFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            TicketFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+        val userId = auth.currentUser?.uid
+        if (userId != null) {
+            db.collection("tickets").document(userId).get()
+                .addOnSuccessListener { document ->
+                    if (document != null) {
+                        Log.d("Firestore", "DocumentSnapshot data: ${document.data}")
+                        val keretaMap = document.get("kereta") as Map<String, Any>
+                        val kereta = dataKereta().apply {
+                            durasiPerjalanan = keretaMap["durasiPerjalanan"] as? String
+                            kelasKereta = keretaMap["kelasKereta"] as? String
+                            tanggalBerangkat = keretaMap["tanggalBerangkat"] as? String
+                            harga = keretaMap["harga"] as? String
+                            stasiunKeberangkatan = keretaMap["stasiunKeberangkatan"] as? String
+                            namaKereta = keretaMap["namaKereta"] as? String
+                            jamTiba = keretaMap["jamTiba"] as? String
+                            stasiunTujuan = keretaMap["stasiunTujuan"] as? String
+                            sisaTiket = keretaMap["sisaTiket"] as? String
+                            jamBerangkat = keretaMap["jamBerangkat"] as? String
+                        }
+                        Log.d("Firestore", "Received data: $kereta")
+                        val keretaList = ArrayList<dataKereta>()
+                        keretaList.add(kereta)
+                        val tiketSayaAdapter = TiketSayaAdapter(requireContext(), keretaList)
+                        binding.ticketList.layoutManager = LinearLayoutManager(requireContext())
+                        binding.ticketList.adapter = tiketSayaAdapter
+                    } else {
+                        Log.d("Firestore", "No such document")
+                    }
                 }
-            }
+                .addOnFailureListener { exception ->
+                    Log.d("Firestore", "get failed with ", exception)
+                }
+        }
     }
 }
