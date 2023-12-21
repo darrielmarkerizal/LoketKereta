@@ -61,16 +61,46 @@ class HomeFragment : Fragment() {
         fetchAndDisplayUserName()
         setupStationsSpinner()
 
-        val recyclerView = binding.recyclerView
-        recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        recyclerView.adapter = KeretaSayaAdapter(listOf(
-            dataKereta("Rp110.000", "Lempuyangan", "LPN", "23:30", "", "Argo Muria",
-            "Semarang Tawang", "SMT", "03:00", "Ekonomi - C", "3 jam 30 menit", "2023-12-25"),
-            dataKereta("Rp110.000", "Lempuyangan", "LPN", "23:30", "", "Argo Muria",
-                "Semarang Tawang", "SMT", "03:00", "Ekonomi - C", "3 jam 30 menit", "2023-12-23"),
-            dataKereta("Rp110.000", "Lempuyangan", "LPN", "23:30", "", "Argo Muria",
-                "Semarang Tawang", "SMT", "03:00", "Ekonomi - C", "3 jam 30 menit", "2023-12-24"),
-        ))
+        val db = FirebaseFirestore.getInstance()
+        val auth = FirebaseAuth.getInstance()
+        val userId = auth.currentUser?.uid
+
+        if (userId != null) {
+            val recyclerView = binding.recyclerView
+            recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+
+            db.collection("tickets")
+                .whereEqualTo("userId", userId)
+                .orderBy("kereta.tanggalBerangkat")
+                .addSnapshotListener { value, error ->
+                    if (error != null) {
+                        Log.w("HomeFragment", "Listen failed.", error)
+                        return@addSnapshotListener
+                    }
+
+                    val keretaList = mutableListOf<dataKereta>()
+                    for (doc in value!!) {
+                        val kereta = doc.get("kereta") as? HashMap<String, Any> ?: continue
+                        val dataKereta = dataKereta(
+                            kereta["harga"] as? String ?: "",
+                            kereta["stasiunKeberangkatan"] as? String ?: "",
+                            kereta["kodeStasiunKeberangkatan"] as? String ?: "",
+                            kereta["jamBerangkat"] as? String ?: "",
+                            kereta["kodeStasiunTujuan"] as? String ?: "",
+                            kereta["namaKereta"] as? String ?: "",
+                            kereta["stasiunTujuan"] as? String ?: "",
+                            kereta["kodeStasiunTujuan"] as? String ?: "",
+                            kereta["jamTiba"] as? String ?: "",
+                            kereta["kelasKereta"] as? String ?: "",
+                            kereta["durasiPerjalanan"] as? String ?: "",
+                            kereta["tanggalBerangkat"] as? String ?: ""
+                        )
+                        keretaList.add(dataKereta)
+                    }
+
+                    recyclerView.adapter = KeretaSayaAdapter(keretaList)
+                }
+        }
 
 
 

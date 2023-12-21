@@ -92,16 +92,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
 
-                <ImageButton
-                    android:id="@+id/buttonDetail"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/blue_button_background"
-                    app:srcCompat="@drawable/arrow_right"
-                    tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck"
-                    tools:srcCompat="@drawable/arrow_right" />
-
             </LinearLayout>
 
         </LinearLayout>
