@@ -23,6 +23,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.loketkereta.kereta.KeretaSayaAdapter
+import com.example.loketkereta.kereta.dataKereta
 import com.example.loketkereta.stasiun.Stasiun
 import com.example.loketkereta.stasiun.StationApi
 import com.google.firebase.firestore.DocumentSnapshot
@@ -58,6 +60,19 @@ class HomeFragment : Fragment() {
 
         fetchAndDisplayUserName()
         setupStationsSpinner()
+
+        val recyclerView = binding.recyclerView
+        recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        recyclerView.adapter = KeretaSayaAdapter(listOf(
+            dataKereta("Rp110.000", "Lempuyangan", "LPN", "23:30", "", "Argo Muria",
+            "Semarang Tawang", "SMT", "03:00", "Ekonomi - C", "3 jam 30 menit", "2023-12-25"),
+            dataKereta("Rp110.000", "Lempuyangan", "LPN", "23:30", "", "Argo Muria",
+                "Semarang Tawang", "SMT", "03:00", "Ekonomi - C", "3 jam 30 menit", "2023-12-23"),
+            dataKereta("Rp110.000", "Lempuyangan", "LPN", "23:30", "", "Argo Muria",
+                "Semarang Tawang", "SMT", "03:00", "Ekonomi - C", "3 jam 30 menit", "2023-12-24"),
+        ))
+
+
 
         binding.swapIcon.setOnClickListener {
             swapDepartureAndDestination()
