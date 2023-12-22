@@ -9,4 +9,6 @@
     <color name="colorInactive">#808080</color>
     <color name="gray">#DFDFDF</color>
     <color name="secondaryText">#59597c</color>
+    <color name="textfield_border">#d1d5db</color>
+    <color name="textfield_border_focused">#3b82f6</color>
 </resources>

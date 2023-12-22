@@ -58,7 +58,6 @@ class HomeFragment : Fragment() {
 
         auth = FirebaseAuth.getInstance()
 
-        fetchAndDisplayUserName()
         setupStationsSpinner()
 
         val db = FirebaseFirestore.getInstance()
@@ -219,6 +218,8 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        fetchAndDisplayUserName()
 
         setupPassengerCounter()
         setupTanggalKeberangkatan()

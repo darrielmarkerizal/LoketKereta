@@ -62,8 +62,14 @@ class LoginFragment : Fragment() {
                     myRef.addValueEventListener(object : ValueEventListener {
                         override fun onDataChange(dataSnapshot: DataSnapshot) {
 
-                            val intent = Intent(activity, MainActivity::class.java)
-                            startActivity(intent)
+                            val role = dataSnapshot.child("role").getValue(String::class.java)
+                            if (role == "admin") {
+                                val intent = Intent(activity, AdminActivity::class.java)
+                                startActivity(intent)
+                            } else {
+                                val intent = Intent(activity, MainActivity::class.java)
+                                startActivity(intent)
+                            }
                             activity?.finish()
                         }
 
