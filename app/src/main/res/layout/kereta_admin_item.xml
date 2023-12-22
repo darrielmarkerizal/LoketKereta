@@ -23,13 +23,12 @@
             android:layout_marginTop="8dp">
 
             <TextView
-                android:id="@+id/playerTextView"
+                android:id="@+id/namaKeretaTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Title"
                 android:textSize="18sp"
-                android:textStyle="bold">
-            </TextView>
+                android:textStyle="bold"></TextView>
 
             <ImageView
                 android:id="@+id/updateButton"
@@ -51,7 +50,16 @@
         </RelativeLayout>
 
         <TextView
-            android:id="@+id/clubTextView"
+            android:id="@+id/ruteTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Content"
+            android:maxLines="3"
+            android:layout_marginTop="4dp">
+        </TextView>
+
+        <TextView
+            android:id="@+id/tanggalTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Content"

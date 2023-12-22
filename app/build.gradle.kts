@@ -2,6 +2,7 @@
 plugins {
     id("com.android.application")
     kotlin("android") version "1.9.0"
+    id("kotlin-parcelize")
     id("com.google.gms.google-services")
 }
 

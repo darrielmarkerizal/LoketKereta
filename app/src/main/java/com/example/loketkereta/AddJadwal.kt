@@ -8,9 +8,12 @@ import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.loketkereta.databinding.ActivityAddJadwalBinding
+import com.example.loketkereta.keretaAdmin.Kereta
 import com.example.loketkereta.stasiun.Stasiun
 import com.example.loketkereta.stasiun.StationApi
 import com.google.firebase.firestore.FirebaseFirestore
@@ -38,6 +41,18 @@ class AddJadwal : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAddJadwalBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val kereta = intent.getParcelableExtra<Kereta>("kereta")
+        if (kereta != null) {
+            populateFields(kereta)
+            binding.saveButton.setOnClickListener {
+                updateDataToFirestore(kereta.id)
+            }
+        } else {
+            binding.saveButton.setOnClickListener {
+                saveDataToFirestore()
+            }
+        }
 
         binding.backButton.setOnClickListener {
             finish()
@@ -199,6 +214,76 @@ class AddJadwal : AppCompatActivity() {
             .addOnFailureListener { e ->
                 Log.w("AddJadwal", "Error adding document", e)
                 Toast.makeText(this, "Error saving data", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    private fun populateFields(kereta: Kereta) {
+        binding.keretaNameEditText.setText(kereta.namaKereta)
+        (binding.spinnerStasiunKeberangkatan as? AutoCompleteTextView)?.setText(kereta.stasiunKeberangkatan, false)
+        (binding.spinnerStasiunTujuan as? AutoCompleteTextView)?.setText(kereta.stasiunTujuan, false)
+        binding.datePicker.setText(kereta.tanggalBerangkat)
+        binding.timePickerKeberangkatan.setText(kereta.jamBerangkat)
+        binding.timePickerTiba.setText(kereta.jamTiba)
+        binding.editTextHarga.setText(kereta.harga.removePrefix("Rp"))
+        binding.editTextKelas.setText(kereta.kelasKereta)
+    }
+
+    private fun getIndex(spinner: Spinner, value: String): Int {
+        for (i in 0 until spinner.count) {
+            if (spinner.getItemAtPosition(i).toString() == value) {
+                return i
+            }
+        }
+        return 0
+    }
+
+    private fun updateDataToFirestore(id: String) {
+        val keretaName = binding.keretaNameEditText.text.toString()
+        val stasiunKeberangkatan = binding.spinnerStasiunKeberangkatan.selectedItem.toString()
+        val stasiunTujuan = binding.spinnerStasiunTujuan.selectedItem.toString()
+        val tanggalBerangkat = binding.datePicker.text.toString()
+        val jamBerangkat = binding.timePickerKeberangkatan.text.toString()
+        val jamTiba = binding.timePickerTiba.text.toString()
+        val hargaInput = binding.editTextHarga.text.toString().toDouble()
+        val harga = "Rp" + NumberFormat.getNumberInstance(Locale("id", "ID")).format(hargaInput)
+        val kelasKereta = binding.editTextKelas.text.toString()
+
+        val format = SimpleDateFormat("HH:mm")
+        val date1 = format.parse(jamBerangkat)
+        val date2 = format.parse(jamTiba)
+        var difference = date2.time - date1.time
+        if (difference < 0) {
+            difference += 24 * 60 * 60 * 1000
+        }
+        val hours = difference / (60 * 60 * 1000)
+        val minutes = difference / (60 * 1000) % 60
+        val durasiPerjalanan = "$hours jam $minutes menit"
+
+        val kereta = hashMapOf(
+            "namaKereta" to keretaName,
+            "stasiunKeberangkatan" to stasiunKeberangkatan,
+            "stasiunTujuan" to stasiunTujuan,
+            "tanggalBerangkat" to tanggalBerangkat,
+            "jamBerangkat" to jamBerangkat,
+            "jamTiba" to jamTiba,
+            "harga" to harga,
+            "kelasKereta" to kelasKereta,
+            "durasiPerjalanan" to durasiPerjalanan
+        )
+
+        val db = FirebaseFirestore.getInstance()
+        db.collection("dataKereta")
+            .document(id)
+            .set(kereta)
+            .addOnSuccessListener {
+                Log.d("AddJadwal", "DocumentSnapshot successfully updated!")
+                Toast.makeText(this, "Data updated successfully", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, AdminActivity::class.java)
+                startActivity(intent)
+            }
+            .addOnFailureListener { e ->
+                Log.w("AddJadwal", "Error updating document", e)
+                Toast.makeText(this, "Error updating data", Toast.LENGTH_SHORT).show()
             }
     }
 }
