@@ -1,72 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    tools:context=".AddJadwal"
-    android:background="#F3FAFD">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <ImageView
-        android:id="@+id/editimage"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="3dp"
-        android:layout_alignParentStart="true"
-        android:src="@drawable/baseline_edit_24" />
-
-    <TextView
-        android:id="@+id/addPlayerHeading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/editimage"
-        android:layout_marginStart="10dp"
-        android:text="Tambah Kereta"
-        android:textSize="24sp"
-        android:textStyle="bold" />
-
-    <ImageView
-        android:id="@+id/backButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/baseline_cancel_24"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/addPlayerHeading"
-        android:layout_marginEnd="10dp" />
-
-    <ImageView
-        android:id="@+id/saveButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/baseline_done_24"
-        android:layout_toStartOf="@id/backButton"
-        android:layout_alignTop="@+id/addPlayerHeading"
-        android:layout_marginEnd="10dp" />
-
-    <EditText
-        android:id="@+id/playerNameEditText"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/addPlayerHeading"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/edit_text_rounded_rectangle"
-        android:hint="Masukkan nama kereta"
-        android:maxLines="1"
-        android:padding="12dp"
-        android:paddingStart="20dp"
-        android:textSize="20sp" />
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        tools:context=".AddJadwal"
+        android:background="#F3FAFD">
 
-    <EditText
-        android:id="@+id/playeClubEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/playerNameEditText"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/edit_text_rounded_rectangle"
-        android:hint="Masukkan club pemain"
-        android:padding="12dp"
-        android:paddingStart="20dp"
-        android:textSize="20sp" />
+        <ImageView
+            android:id="@+id/editimage"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="3dp"
+            android:layout_alignParentStart="true"
+            android:src="@drawable/baseline_edit_24" />
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/addPlayerHeading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/editimage"
+            android:layout_marginStart="10dp"
+            android:text="Tambah Kereta"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_cancel_24"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/addPlayerHeading"
+            android:layout_marginEnd="10dp" />
+
+        <ImageView
+            android:id="@+id/saveButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_done_24"
+            android:layout_toStartOf="@id/backButton"
+            android:layout_alignTop="@+id/addPlayerHeading"
+            android:layout_marginEnd="10dp" />
+
+        <EditText
+            android:id="@+id/keretaNameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/addPlayerHeading"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/edit_text_rounded_rectangle"
+            android:hint="Masukkan Nama Kereta"
+            android:maxLines="1"
+            android:padding="12dp"
+            android:paddingStart="20dp"
+            android:textSize="20sp" />
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinnerStasiunKeberangkatan"
+            android:layout_below="@+id/keretaNameEditText"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/edit_text_rounded_rectangle"
+            android:padding="12dp"
+            android:paddingStart="20dp"/>
+
+        <Spinner
+            android:id="@+id/spinnerStasiunTujuan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/spinnerStasiunKeberangkatan"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/edit_text_rounded_rectangle"
+            android:padding="12dp"
+            android:paddingStart="20dp" />
+
+        <EditText
+            android:id="@+id/datePicker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/spinnerStasiunTujuan"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/edit_text_rounded_rectangle"
+            android:hint="Masukkan Tanggal Keberangkatan"
+            android:paddingStart="20dp"
+            android:focusable="false"
+            android:padding="12dp"/>
+
+        <EditText
+            android:id="@+id/timePickerKeberangkatan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/datePicker"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/edit_text_rounded_rectangle"
+            android:hint="Masukkan Jam Keberangkatan"
+            android:focusable="false"
+            android:paddingStart="20dp"
+            android:padding="12dp"/>
+
+        <EditText
+            android:id="@+id/timePickerTiba"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/timePickerKeberangkatan"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/edit_text_rounded_rectangle"
+            android:hint="Masukkan Jam Tiba"
+            android:paddingStart="20dp"
+            android:focusable="false"
+            android:padding="12dp"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editTextHarga"
+            android:layout_below="@id/timePickerTiba"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/edit_text_rounded_rectangle"
+            android:hint="Masukkan Harga"
+            android:paddingStart="20dp"
+            android:inputType="number"
+            android:padding="12dp"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editTextKelas"
+            android:layout_below="@id/editTextHarga"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/edit_text_rounded_rectangle"
+            android:hint="Masukkan Kelas kereta"
+            android:paddingStart="20dp"
+            android:inputType="text"
+            android:padding="12dp"/>
+
+
+
+    </RelativeLayout>
+
+</ScrollView>

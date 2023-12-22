@@ -54,7 +54,6 @@ class LoginFragment : Fragment() {
                     val editor = sharedPreferences.edit()
 
                     editor.putBoolean("isLoggedIn", true)
-                    editor.apply()
 
                     val database = FirebaseDatabase.getInstance()
                     val myRef = database.getReference("users").child(user!!.uid)
@@ -63,6 +62,9 @@ class LoginFragment : Fragment() {
                         override fun onDataChange(dataSnapshot: DataSnapshot) {
 
                             val role = dataSnapshot.child("role").getValue(String::class.java)
+                            editor.putString("role", role)
+                            editor.apply()
+
                             if (role == "admin") {
                                 val intent = Intent(activity, AdminActivity::class.java)
                                 startActivity(intent)

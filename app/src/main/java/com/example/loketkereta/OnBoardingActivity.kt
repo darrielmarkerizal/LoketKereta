@@ -6,7 +6,6 @@ import android.os.Bundle
 import androidx.appcompat.widget.AppCompatButton
 import androidx.viewpager2.widget.ViewPager2
 import com.example.loketkereta.databinding.ActivityOnBoardingBinding
-import com.example.loketkereta.databinding.FragmentOnBoardingBinding
 import com.google.android.material.tabs.TabLayoutMediator
 import android.content.Context
 
@@ -34,10 +33,16 @@ class OnBoardingActivity : AppCompatActivity() {
 
         val sharedPreferences = getSharedPreferences("LoginPreferences", Context.MODE_PRIVATE)
         if (sharedPreferences.getBoolean("isLoggedIn", false)) {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()
+            val role = sharedPreferences.getString("role", "")
+            if (role == "admin") {
+                val intent = Intent(this, AdminActivity::class.java)
+                startActivity(intent)
+                finish()
+            } else {
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
         }
-
     }
 }

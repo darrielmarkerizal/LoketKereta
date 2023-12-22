@@ -33,12 +33,6 @@
             android:name=".DaftarJadwalActivity"
             android:exported="false" />
         <activity
-            android:name=".BookingActivity"
-            android:exported="false" />
-        <activity
-            android:name=".DashboardActivity"
-            android:exported="false" />
-        <activity
             android:name=".OnBoardingActivity"
             android:exported="true">
             <intent-filter>
@@ -49,9 +43,6 @@
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:exported="false" />
-        <activity
-            android:name=".RegisterActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
