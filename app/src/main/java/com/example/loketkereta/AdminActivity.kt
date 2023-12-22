@@ -58,7 +58,7 @@ class AdminActivity : AppCompatActivity() {
                     ).build()
                     keretaList.forEach { kereta ->
                         Thread {
-                            roomDb.keretaDao().insert(kereta)
+                            roomDb.keretaDao().upsert(kereta)
                         }.start()
                     }
                     checkDataInRoom()

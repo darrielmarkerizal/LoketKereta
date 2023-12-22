@@ -12,7 +12,9 @@ import android.widget.AutoCompleteTextView
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.room.Room
 import com.example.loketkereta.databinding.ActivityAddJadwalBinding
+import com.example.loketkereta.keretaAdmin.AppDatabase
 import com.example.loketkereta.keretaAdmin.Kereta
 import com.example.loketkereta.stasiun.Stasiun
 import com.example.loketkereta.stasiun.StationApi
@@ -26,6 +28,7 @@ import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+import java.util.UUID
 
 class AddJadwal : AppCompatActivity() {
     private lateinit var binding: ActivityAddJadwalBinding
@@ -47,6 +50,7 @@ class AddJadwal : AppCompatActivity() {
             populateFields(kereta)
             binding.saveButton.setOnClickListener {
                 updateDataToFirestore(kereta.id)
+                updateDataToRoom(kereta.id)
             }
         } else {
             binding.saveButton.setOnClickListener {
@@ -60,6 +64,7 @@ class AddJadwal : AppCompatActivity() {
 
         binding.saveButton.setOnClickListener {
             saveDataToFirestore()
+            saveDataToRoom()
         }
 
         setupStationsSpinner()
@@ -285,5 +290,94 @@ class AddJadwal : AppCompatActivity() {
                 Log.w("AddJadwal", "Error updating document", e)
                 Toast.makeText(this, "Error updating data", Toast.LENGTH_SHORT).show()
             }
+    }
+
+    private fun saveDataToRoom() {
+        val keretaName = binding.keretaNameEditText.text.toString()
+        val stasiunKeberangkatan = binding.spinnerStasiunKeberangkatan.selectedItem.toString()
+        val stasiunTujuan = binding.spinnerStasiunTujuan.selectedItem.toString()
+        val tanggalBerangkat = binding.datePicker.text.toString()
+        val jamBerangkat = binding.timePickerKeberangkatan.text.toString()
+        val jamTiba = binding.timePickerTiba.text.toString()
+        val hargaInput = binding.editTextHarga.text.toString().toDouble()
+        val harga = "Rp" + NumberFormat.getNumberInstance(Locale("id", "ID")).format(hargaInput)
+        val kelasKereta = binding.editTextKelas.text.toString()
+
+        val format = SimpleDateFormat("HH:mm")
+        val date1 = format.parse(jamBerangkat)
+        val date2 = format.parse(jamTiba)
+        var difference = date2.time - date1.time
+        if (difference < 0) {
+            difference += 24 * 60 * 60 * 1000
+        }
+        val hours = difference / (60 * 60 * 1000)
+        val minutes = difference / (60 * 1000) % 60
+        val durasiPerjalanan = "$hours jam $minutes menit"
+
+        val kereta = Kereta(
+            id = UUID.randomUUID().toString(),
+            namaKereta = keretaName,
+            stasiunKeberangkatan = stasiunKeberangkatan,
+            stasiunTujuan = stasiunTujuan,
+            tanggalBerangkat = tanggalBerangkat,
+            jamBerangkat = jamBerangkat,
+            jamTiba = jamTiba,
+            harga = harga,
+            kelasKereta = kelasKereta,
+            durasiPerjalanan = durasiPerjalanan
+        )
+
+        val roomDb = Room.databaseBuilder(
+            applicationContext,
+            AppDatabase::class.java, "kereta-db"
+        ).build()
+        Thread {
+            roomDb.keretaDao().upsert(kereta)
+            Log.d("AddJadwal", "Data successfully saved in Room")
+        }.start()
+    }
+
+    private fun updateDataToRoom(id: String) {
+        val keretaName = binding.keretaNameEditText.text.toString()
+        val stasiunKeberangkatan = binding.spinnerStasiunKeberangkatan.selectedItem.toString()
+        val stasiunTujuan = binding.spinnerStasiunTujuan.selectedItem.toString()
+        val tanggalBerangkat = binding.datePicker.text.toString()
+        val jamBerangkat = binding.timePickerKeberangkatan.text.toString()
+        val jamTiba = binding.timePickerTiba.text.toString()
+        val hargaInput = binding.editTextHarga.text.toString().toDouble()
+        val harga = "Rp" + NumberFormat.getNumberInstance(Locale("id", "ID")).format(hargaInput)
+        val kelasKereta = binding.editTextKelas.text.toString()
+
+        val format = SimpleDateFormat("HH:mm")
+        val date1 = format.parse(jamBerangkat)
+        val date2 = format.parse(jamTiba)
+        var difference = date2.time - date1.time
+        if (difference < 0) {
+            difference += 24 * 60 * 60 * 1000
+        }
+        val hours = difference / (60 * 60 * 1000)
+        val minutes = difference / (60 * 1000) % 60
+        val durasiPerjalanan = "$hours jam $minutes menit"
+
+        val kereta = Kereta(
+            id = id,
+            namaKereta = keretaName,
+            stasiunKeberangkatan = stasiunKeberangkatan,
+            stasiunTujuan = stasiunTujuan,
+            tanggalBerangkat = tanggalBerangkat,
+            jamBerangkat = jamBerangkat,
+            jamTiba = jamTiba,
+            harga = harga,
+            kelasKereta = kelasKereta,
+            durasiPerjalanan = durasiPerjalanan
+        )
+
+        val roomDb = Room.databaseBuilder(
+            applicationContext,
+            AppDatabase::class.java, "kereta-db"
+        ).build()
+        Thread {
+            roomDb.keretaDao().update(kereta)
+        }.start()
     }
 }

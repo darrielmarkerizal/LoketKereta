@@ -33,7 +33,7 @@ class OnBoardingActivity : AppCompatActivity() {
 
         val sharedPreferences = getSharedPreferences("LoginPreferences", Context.MODE_PRIVATE)
         if (sharedPreferences.getBoolean("isLoggedIn", false)) {
-            val role = sharedPreferences.getString("role", "")
+            val role = sharedPreferences.getString("role", "admin")
             if (role == "admin") {
                 val intent = Intent(this, AdminActivity::class.java)
                 startActivity(intent)
