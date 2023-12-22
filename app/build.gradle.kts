@@ -3,6 +3,7 @@ plugins {
     id("com.android.application")
     kotlin("android") version "1.9.0"
     id("kotlin-parcelize")
+    kotlin("kapt")
     id("com.google.gms.google-services")
 }
 
@@ -61,6 +62,10 @@ dependencies {
     implementation("androidx.navigation:navigation-ui-ktx:2.3.5")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    implementation("androidx.room:room-runtime:2.4.0-alpha03")
+    kapt("androidx.room:room-compiler:2.4.0-alpha03")
+    kapt("org.xerial:sqlite-jdbc:3.34.0")
+
 }
 
 
