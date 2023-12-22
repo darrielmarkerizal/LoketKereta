@@ -1,5 +1,6 @@
 package com.example.loketkereta
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,6 +11,7 @@ import com.example.loketkereta.databinding.ActivityAdminBinding
 import com.example.loketkereta.keretaAdmin.AppDatabase
 import com.example.loketkereta.keretaAdmin.Kereta
 import com.example.loketkereta.keretaAdmin.KeretaAdapter
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class AdminActivity : AppCompatActivity() {
@@ -23,6 +25,19 @@ class AdminActivity : AppCompatActivity() {
 
         binding.addButton.setOnClickListener {
             startActivity(Intent(this, AddJadwal::class.java))
+        }
+
+        binding.logout.setOnClickListener {
+            val sharedPreferences = this.getSharedPreferences("LoginPreferences", Context.MODE_PRIVATE)
+            val editor = sharedPreferences.edit()
+            editor.clear()
+            editor.apply()
+
+            FirebaseAuth.getInstance().signOut()
+
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
         }
 
         setupRecyclerView()

@@ -18,6 +18,19 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true" />
 
+    <TextView
+        android:id="@+id/logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Logout"
+        android:textSize="18sp"
+        android:clickable="true"
+        android:onClick="onTextButtonClick"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:textColor="#E91E63"
+        android:layout_marginTop="8dp" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
