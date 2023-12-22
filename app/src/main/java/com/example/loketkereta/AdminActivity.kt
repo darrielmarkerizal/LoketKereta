@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.room.Room
 import com.example.loketkereta.databinding.ActivityAdminBinding
+import com.example.loketkereta.keretaAdmin.AppDatabase
 import com.example.loketkereta.keretaAdmin.Kereta
 import com.example.loketkereta.keretaAdmin.KeretaAdapter
 import com.google.firebase.firestore.FirebaseFirestore
@@ -49,9 +51,36 @@ class AdminActivity : AppCompatActivity() {
                     }.toMutableList()
                     adapter = KeretaAdapter(keretaList, this)
                     binding.recyclerView.adapter = adapter
+
+                    val roomDb = Room.databaseBuilder(
+                        applicationContext,
+                        AppDatabase::class.java, "kereta-db"
+                    ).build()
+                    keretaList.forEach { kereta ->
+                        Thread {
+                            roomDb.keretaDao().insert(kereta)
+                        }.start()
+                    }
+                    checkDataInRoom()
                 } else {
                     Log.d("AdminActivity", "Current data: null")
                 }
             }
+    }
+
+    private fun checkDataInRoom() {
+        val roomDb = Room.databaseBuilder(
+            applicationContext,
+            AppDatabase::class.java, "kereta-db"
+        ).build()
+
+        Thread {
+            val keretaList = roomDb.keretaDao().getAll()
+            if (keretaList.isNotEmpty()) {
+                Log.d("AdminActivity", "Data successfully saved in Room")
+            } else {
+                Log.d("AdminActivity", "No data found in Room")
+            }
+        }.start()
     }
 }
