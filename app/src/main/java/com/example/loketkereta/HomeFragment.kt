@@ -39,7 +39,7 @@ import java.util.Locale
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = _binding ?: throw IllegalStateException("Binding is not initialized")
     private lateinit var auth: FirebaseAuth
 
     val retrofit = Retrofit.Builder()

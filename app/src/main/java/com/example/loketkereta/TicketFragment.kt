@@ -33,25 +33,29 @@ class TicketFragment : Fragment() {
                 .addOnSuccessListener { document ->
                     if (document != null) {
                         Log.d("Firestore", "DocumentSnapshot data: ${document.data}")
-                        val keretaMap = document.get("kereta") as Map<String, Any>
-                        val kereta = dataKereta().apply {
-                            durasiPerjalanan = keretaMap["durasiPerjalanan"] as? String
-                            kelasKereta = keretaMap["kelasKereta"] as? String
-                            tanggalBerangkat = keretaMap["tanggalBerangkat"] as? String
-                            harga = keretaMap["harga"] as? String
-                            stasiunKeberangkatan = keretaMap["stasiunKeberangkatan"] as? String
-                            namaKereta = keretaMap["namaKereta"] as? String
-                            jamTiba = keretaMap["jamTiba"] as? String
-                            stasiunTujuan = keretaMap["stasiunTujuan"] as? String
-                            sisaTiket = keretaMap["sisaTiket"] as? String
-                            jamBerangkat = keretaMap["jamBerangkat"] as? String
+                        val keretaMap = document.get("kereta") as? Map<String, Any>
+                        if (keretaMap != null) {
+                            val kereta = dataKereta().apply {
+                                durasiPerjalanan = keretaMap["durasiPerjalanan"] as? String
+                                kelasKereta = keretaMap["kelasKereta"] as? String
+                                tanggalBerangkat = keretaMap["tanggalBerangkat"] as? String
+                                harga = keretaMap["harga"] as? String
+                                stasiunKeberangkatan = keretaMap["stasiunKeberangkatan"] as? String
+                                namaKereta = keretaMap["namaKereta"] as? String
+                                jamTiba = keretaMap["jamTiba"] as? String
+                                stasiunTujuan = keretaMap["stasiunTujuan"] as? String
+                                sisaTiket = keretaMap["sisaTiket"] as? String
+                                jamBerangkat = keretaMap["jamBerangkat"] as? String
+                            }
+                            Log.d("Firestore", "Received data: $kereta")
+                            val keretaList = ArrayList<dataKereta>()
+                            keretaList.add(kereta)
+                            val tiketSayaAdapter = TiketSayaAdapter(requireContext(), keretaList)
+                            binding.ticketList.layoutManager = LinearLayoutManager(requireContext())
+                            binding.ticketList.adapter = tiketSayaAdapter
+                        } else {
+                            Log.d("Firestore", "Data 'kereta' is null or not a Map")
                         }
-                        Log.d("Firestore", "Received data: $kereta")
-                        val keretaList = ArrayList<dataKereta>()
-                        keretaList.add(kereta)
-                        val tiketSayaAdapter = TiketSayaAdapter(requireContext(), keretaList)
-                        binding.ticketList.layoutManager = LinearLayoutManager(requireContext())
-                        binding.ticketList.adapter = tiketSayaAdapter
                     } else {
                         Log.d("Firestore", "No such document")
                     }
